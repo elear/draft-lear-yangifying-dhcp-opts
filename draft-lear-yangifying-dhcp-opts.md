@@ -19,22 +19,21 @@
 # Change the file extension to match the format (.xml for XML, etc...)
 #
 ###
-title: "TODO - Your title"
-abbrev: "TODO - Abbreviation"
-category: info
+title: "DHCP Options in YANG"
+abbrev: "DHCP Options in YANG"
+category: std
 
-docname: draft-todo-yourname-protocol-latest
+docname: draft-lear-yangifying-dhcp-opts-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:
 consensus: true
 v: 3
-area: AREA
-workgroup: WG Working Group
+area: int
+workgroup: dhc
 keyword:
- - next generation
- - unicorn
- - AI-native
+ - dhcp
+ - yang
 venue:
   group: WG
   type: Working Group
