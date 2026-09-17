@@ -1,0 +1,1543 @@
+module example-dhcpv6-server-options {
+  yang-version 1.1;
+  namespace
+    "urn:ietf:params:xml:ns:yang:ietf-dhcpv6-server-options";
+  prefix dhc6-so;
+
+  import ietf-inet-types {
+    prefix inet;
+    revision-date 2013-07-15;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    revision-date 2022-06-20;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6 Configuration";
+  }
+
+  organization
+    "IETF DHC Working Group";
+  contact
+    "WG Website: https://datatracker.ietf.org/wg/dhc/
+     WG List: dhcpwg@ietf.org
+
+     Name: Eliot Lear
+     Email: lear@cisco.com";
+  description
+    "This module augments the DHCPv6 server schema defined by
+     RFC 9243.  It models every assigned, non-obsolete option that the
+     IANA DHCPv6 Option Codes registry, as retrieved on 2026-08-22,
+     marks as requestable in a client Option Request Option, except
+     options already represented in the RFC 9243 server model.
+
+     This scope covers standardized server-supplied configuration.
+     Client-originated, relay, leasequery, failover, protocol-internal,
+     and other options whose Client ORO value is 'No' are outside the
+     scope of an RFC 9243 server option-set augmentation.
+
+     In accordance with RFC 9243 Appendix B, every option has a
+     separate grouping, an IANA-derived option name, a code-bearing
+     description, and a reference to its defining RFC.  Fields use
+     YANG scalar, list, or leaf-list types when the RFC wire format has
+     an unambiguous configuration representation.  Complex options
+     whose subfields require a dedicated option-specific data model
+     retain their ordered OPTION_DATA as binary; this avoids inventing
+     semantics while preserving the defining RFC's format.";
+
+  revision 2026-08-22 {
+    description
+      "Initial revision.";
+    reference
+      "RFC XXXX: YANG Module for DHCPv6 Server Options";
+  }
+
+  /*
+   * Option groupings
+   */
+  grouping sip-server-domain-name-list-option-group {
+    description
+      "OPTION_SIP_SERVER_D (21) option.";
+    reference
+      "RFC 3319: Dynamic Host Configuration Protocol (DHCPv6) Options
+       for Session Initiation Protocol (SIP) Servers.";
+    container sip-server-domain-name-list-option {
+      presence
+        "Configure OPTION_SIP_SERVER_D (21).";
+      description
+        "OPTION_SIP_SERVER_D (21) option configuration.";
+      leaf-list domain-name {
+        type inet:domain-name;
+        min-elements 1;
+        ordered-by user;
+        description
+          "Domain names in wire order.";
+      }
+    }
+  }
+
+  grouping sip-server-address-list-option-group {
+    description
+      "OPTION_SIP_SERVER_A (22) option.";
+    reference
+      "RFC 3319: Dynamic Host Configuration Protocol (DHCPv6) Options
+       for Session Initiation Protocol (SIP) Servers.";
+    container sip-server-address-list-option {
+      presence
+        "Configure OPTION_SIP_SERVER_A (22).";
+      description
+        "OPTION_SIP_SERVER_A (22) option configuration.";
+      leaf-list server-address {
+        type inet:ipv6-address;
+        min-elements 1;
+        ordered-by user;
+        description
+          "IPv6 server addresses in wire order.";
+      }
+    }
+  }
+
+  grouping dns-recursive-name-server-option-group {
+    description
+      "OPTION_DNS_SERVERS (23) option.";
+    reference
+      "RFC 3646: DNS Configuration options for DHCPv6.";
+    container dns-recursive-name-server-option {
+      presence
+        "Configure OPTION_DNS_SERVERS (23).";
+      description
+        "OPTION_DNS_SERVERS (23) option configuration.";
+      leaf-list server-address {
+        type inet:ipv6-address;
+        min-elements 1;
+        ordered-by user;
+        description
+          "IPv6 server addresses in wire order.";
+      }
+    }
+  }
+
+  grouping domain-search-list-option-group {
+    description
+      "OPTION_DOMAIN_LIST (24) option.";
+    reference
+      "RFC 3646: DNS Configuration options for DHCPv6.";
+    container domain-search-list-option {
+      presence
+        "Configure OPTION_DOMAIN_LIST (24).";
+      description
+        "OPTION_DOMAIN_LIST (24) option configuration.";
+      leaf-list domain-name {
+        type inet:domain-name;
+        min-elements 1;
+        ordered-by user;
+        description
+          "Domain names in wire order.";
+      }
+    }
+  }
+
+  grouping nis-server-address-list-option-group {
+    description
+      "OPTION_NIS_SERVERS (27) option.";
+    reference
+      "RFC 3898: NIS Configuration Options for DHCPv6.";
+    container nis-server-address-list-option {
+      presence
+        "Configure OPTION_NIS_SERVERS (27).";
+      description
+        "OPTION_NIS_SERVERS (27) option configuration.";
+      leaf-list server-address {
+        type inet:ipv6-address;
+        min-elements 1;
+        ordered-by user;
+        description
+          "IPv6 server addresses in wire order.";
+      }
+    }
+  }
+
+  grouping nisp-server-address-list-option-group {
+    description
+      "OPTION_NISP_SERVERS (28) option.";
+    reference
+      "RFC 3898: NIS Configuration Options for DHCPv6.";
+    container nisp-server-address-list-option {
+      presence
+        "Configure OPTION_NISP_SERVERS (28).";
+      description
+        "OPTION_NISP_SERVERS (28) option configuration.";
+      leaf-list server-address {
+        type inet:ipv6-address;
+        min-elements 1;
+        ordered-by user;
+        description
+          "IPv6 server addresses in wire order.";
+      }
+    }
+  }
+
+  grouping nis-domain-name-option-group {
+    description
+      "OPTION_NIS_DOMAIN_NAME (29) option.";
+    reference
+      "RFC 3898: NIS Configuration Options for DHCPv6.";
+    container nis-domain-name-option {
+      presence
+        "Configure OPTION_NIS_DOMAIN_NAME (29).";
+      description
+        "OPTION_NIS_DOMAIN_NAME (29) option configuration.";
+      leaf domain-name {
+        type inet:domain-name;
+        mandatory true;
+        description
+          "The domain-name field.";
+      }
+    }
+  }
+
+  grouping nisp-domain-name-option-group {
+    description
+      "OPTION_NISP_DOMAIN_NAME (30) option.";
+    reference
+      "RFC 3898: NIS Configuration Options for DHCPv6.";
+    container nisp-domain-name-option {
+      presence
+        "Configure OPTION_NISP_DOMAIN_NAME (30).";
+      description
+        "OPTION_NISP_DOMAIN_NAME (30) option configuration.";
+      leaf domain-name {
+        type inet:domain-name;
+        mandatory true;
+        description
+          "The domain-name field.";
+      }
+    }
+  }
+
+  grouping sntp-server-address-list-option-group {
+    description
+      "OPTION_SNTP_SERVERS (31) option.";
+    reference
+      "RFC 4075: Simple Network Time Protocol (SNTP) Configuration
+       Option for DHCPv6.";
+    container sntp-server-address-list-option {
+      presence
+        "Configure OPTION_SNTP_SERVERS (31).";
+      description
+        "OPTION_SNTP_SERVERS (31) option configuration.";
+      leaf-list server-address {
+        type inet:ipv6-address;
+        min-elements 1;
+        ordered-by user;
+        description
+          "IPv6 server addresses in wire order.";
+      }
+    }
+  }
+
+  grouping bcmcs-server-domain-name-list-option-group {
+    description
+      "OPTION_BCMCS_SERVER_D (33) option.";
+    reference
+      "RFC 4280: DHCP Options for Broadcast and Multicast Control
+       Servers.";
+    container bcmcs-server-domain-name-list-option {
+      presence
+        "Configure OPTION_BCMCS_SERVER_D (33).";
+      description
+        "OPTION_BCMCS_SERVER_D (33) option configuration.";
+      leaf-list domain-name {
+        type inet:domain-name;
+        min-elements 1;
+        ordered-by user;
+        description
+          "Domain names in wire order.";
+      }
+    }
+  }
+
+  grouping bcmcs-server-address-list-option-group {
+    description
+      "OPTION_BCMCS_SERVER_A (34) option.";
+    reference
+      "RFC 4280: DHCP Options for Broadcast and Multicast Control
+       Servers.";
+    container bcmcs-server-address-list-option {
+      presence
+        "Configure OPTION_BCMCS_SERVER_A (34).";
+      description
+        "OPTION_BCMCS_SERVER_A (34) option configuration.";
+      leaf-list server-address {
+        type inet:ipv6-address;
+        min-elements 1;
+        ordered-by user;
+        description
+          "IPv6 server addresses in wire order.";
+      }
+    }
+  }
+
+  grouping geoconf-civic-option-group {
+    description
+      "OPTION_GEOCONF_CIVIC (36) option.";
+    reference
+      "RFC 4776: Dynamic Host Configuration Protocol (DHCPv4 and
+       DHCPv6) Option for Civic Addresses Configuration Information.";
+    container geoconf-civic-option {
+      presence
+        "Configure OPTION_GEOCONF_CIVIC (36).";
+      description
+        "OPTION_GEOCONF_CIVIC (36) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping client-fqdn-option-group {
+    description
+      "OPTION_CLIENT_FQDN (39) option.";
+    reference
+      "RFC 4704: The Dynamic Host Configuration Protocol for IPv6
+       (DHCPv6) Client Fully Qualified Domain Name (FQDN) Option.";
+    container client-fqdn-option {
+      presence
+        "Configure OPTION_CLIENT_FQDN (39).";
+      description
+        "OPTION_CLIENT_FQDN (39) option configuration.";
+      leaf flags {
+        type uint8;
+        mandatory true;
+        description
+          "The one-octet Flags field.";
+      }
+      leaf domain-name {
+        type inet:domain-name;
+        mandatory true;
+        description
+          "The Domain Name field.";
+      }
+    }
+  }
+
+  grouping pana-agent-option-group {
+    description
+      "OPTION_PANA_AGENT (40) option.";
+    reference
+      "RFC 5192: DHCP Options for Protocol for Carrying Authentication
+       for Network Access (PANA) Authentication Agents.";
+    container pana-agent-option {
+      presence
+        "Configure OPTION_PANA_AGENT (40).";
+      description
+        "OPTION_PANA_AGENT (40) option configuration.";
+      leaf-list server-address {
+        type inet:ipv6-address;
+        min-elements 1;
+        ordered-by user;
+        description
+          "IPv6 server addresses in wire order.";
+      }
+    }
+  }
+
+  grouping posix-timezone-option-group {
+    description
+      "OPTION_NEW_POSIX_TIMEZONE (41) option.";
+    reference
+      "RFC 4833: Timezone Options for DHCP.";
+    container posix-timezone-option {
+      presence
+        "Configure OPTION_NEW_POSIX_TIMEZONE (41).";
+      description
+        "OPTION_NEW_POSIX_TIMEZONE (41) option configuration.";
+      leaf tz-posix {
+        type string;
+        mandatory true;
+        description
+          "The UTF-8 tz-posix field.";
+      }
+    }
+  }
+
+  grouping tzdb-timezone-option-group {
+    description
+      "OPTION_NEW_TZDB_TIMEZONE (42) option.";
+    reference
+      "RFC 4833: Timezone Options for DHCP.";
+    container tzdb-timezone-option {
+      presence
+        "Configure OPTION_NEW_TZDB_TIMEZONE (42).";
+      description
+        "OPTION_NEW_TZDB_TIMEZONE (42) option configuration.";
+      leaf tz-database {
+        type string;
+        mandatory true;
+        description
+          "The UTF-8 tz-database field.";
+      }
+    }
+  }
+
+  grouping mip6-home-network-id-fqdn-option-group {
+    description
+      "OPTION_MIP6_HNIDF (49) option.";
+    reference
+      "RFC 6610: DHCP Options for Home Information Discovery in Mobile
+       IPv6 (MIPv6).";
+    container mip6-home-network-id-fqdn-option {
+      presence
+        "Configure OPTION_MIP6_HNIDF (49).";
+      description
+        "OPTION_MIP6_HNIDF (49) option configuration.";
+      leaf domain-name {
+        type inet:domain-name;
+        mandatory true;
+        description
+          "The domain-name field.";
+      }
+    }
+  }
+
+  grouping mip6-visited-home-network-info-option-group {
+    description
+      "OPTION_MIP6_VDINF (50) option.";
+    reference
+      "RFC 6610: DHCP Options for Home Information Discovery in Mobile
+       IPv6 (MIPv6).";
+    container mip6-visited-home-network-info-option {
+      presence
+        "Configure OPTION_MIP6_VDINF (50).";
+      description
+        "OPTION_MIP6_VDINF (50) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping lost-server-domain-name-option-group {
+    description
+      "OPTION_V6_LOST (51) option.";
+    reference
+      "RFC 5223: Discovering Location-to-Service Translation (LoST)
+       Servers Using the Dynamic Host Configuration Protocol (DHCP).";
+    container lost-server-domain-name-option {
+      presence
+        "Configure OPTION_V6_LOST (51).";
+      description
+        "OPTION_V6_LOST (51) option configuration.";
+      leaf domain-name {
+        type inet:domain-name;
+        mandatory true;
+        description
+          "The domain-name field.";
+      }
+    }
+  }
+
+  grouping capwap-ac-address-list-option-group {
+    description
+      "OPTION_CAPWAP_AC_V6 (52) option.";
+    reference
+      "RFC 5417: Control And Provisioning of Wireless Access Points
+       (CAPWAP) Access Controller DHCP Option.";
+    container capwap-ac-address-list-option {
+      presence
+        "Configure OPTION_CAPWAP_AC_V6 (52).";
+      description
+        "OPTION_CAPWAP_AC_V6 (52) option configuration.";
+      leaf-list server-address {
+        type inet:ipv6-address;
+        min-elements 1;
+        ordered-by user;
+        description
+          "IPv6 server addresses in wire order.";
+      }
+    }
+  }
+
+  grouping mos-ipv6-address-option-group {
+    description
+      "OPTION-IPv6_Address-MoS (54) option.";
+    reference
+      "RFC 5678: Mobility Services (MoS) Discovery in IEEE 802.21.";
+    container mos-ipv6-address-option {
+      presence
+        "Configure OPTION-IPv6_Address-MoS (54).";
+      description
+        "OPTION-IPv6_Address-MoS (54) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping mos-ipv6-fqdn-option-group {
+    description
+      "OPTION-IPv6_FQDN-MoS (55) option.";
+    reference
+      "RFC 5678: Mobility Services (MoS) Discovery in IEEE 802.21.";
+    container mos-ipv6-fqdn-option {
+      presence
+        "Configure OPTION-IPv6_FQDN-MoS (55).";
+      description
+        "OPTION-IPv6_FQDN-MoS (55) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping ntp-server-option-group {
+    description
+      "OPTION_NTP_SERVER (56) option.";
+    reference
+      "RFC 5908: Network Time Protocol (NTP) Server Option for DHCPv6.";
+    container ntp-server-option {
+      presence
+        "Configure OPTION_NTP_SERVER (56).";
+      description
+        "OPTION_NTP_SERVER (56) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping access-network-domain-name-option-group {
+    description
+      "OPTION_V6_ACCESS_DOMAIN (57) option.";
+    reference
+      "RFC 5986: Discovering the Local Location Information Server
+       (LIS).";
+    container access-network-domain-name-option {
+      presence
+        "Configure OPTION_V6_ACCESS_DOMAIN (57).";
+      description
+        "OPTION_V6_ACCESS_DOMAIN (57) option configuration.";
+      leaf domain-name {
+        type inet:domain-name;
+        mandatory true;
+        description
+          "The domain-name field.";
+      }
+    }
+  }
+
+  grouping sip-ua-configuration-service-domains-option-group {
+    description
+      "OPTION_SIP_UA_CS_LIST (58) option.";
+    reference
+      "RFC 6011: Session Initiation Protocol (SIP) User Agent
+       Configuration.";
+    container sip-ua-configuration-service-domains-option {
+      presence
+        "Configure OPTION_SIP_UA_CS_LIST (58).";
+      description
+        "OPTION_SIP_UA_CS_LIST (58) option configuration.";
+      leaf-list domain-name {
+        type inet:domain-name;
+        min-elements 1;
+        ordered-by user;
+        description
+          "Domain names in wire order.";
+      }
+    }
+  }
+
+  grouping boot-file-url-option-group {
+    description
+      "OPT_BOOTFILE_URL (59) option.";
+    reference
+      "RFC 5970: DHCPv6 Options for Network Boot.";
+    container boot-file-url-option {
+      presence
+        "Configure OPT_BOOTFILE_URL (59).";
+      description
+        "OPT_BOOTFILE_URL (59) option configuration.";
+      leaf uri {
+        type inet:uri;
+        mandatory true;
+        description
+          "The URI carried by the option.";
+      }
+    }
+  }
+
+  grouping boot-file-parameter-option-group {
+    description
+      "OPT_BOOTFILE_PARAM (60) option.";
+    reference
+      "RFC 5970: DHCPv6 Options for Network Boot.";
+    container boot-file-parameter-option {
+      presence
+        "Configure OPT_BOOTFILE_PARAM (60).";
+      description
+        "OPT_BOOTFILE_PARAM (60) option configuration.";
+      leaf-list bootfile-param {
+        type string;
+        min-elements 1;
+        ordered-by user;
+        description
+          "Boot-file parameters in wire order.  Each value is encoded
+           as the RFC 5970 two-octet length followed by UTF-8 data.";
+      }
+    }
+  }
+
+  grouping network-interface-id-option-group {
+    description
+      "OPTION_NII (62) option.";
+    reference
+      "RFC 5970: DHCPv6 Options for Network Boot.";
+    container network-interface-id-option {
+      presence
+        "Configure OPTION_NII (62).";
+      description
+        "OPTION_NII (62) option configuration.";
+      leaf type {
+        type uint8;
+        mandatory true;
+        description
+          "Network-interface type.";
+      }
+      leaf major {
+        type uint8;
+        mandatory true;
+        description
+          "Major revision of the network-interface identifier.";
+      }
+      leaf minor {
+        type uint8;
+        mandatory true;
+        description
+          "Minor revision of the network-interface identifier.";
+      }
+    }
+  }
+
+  grouping geolocation-option-group {
+    description
+      "OPTION_GEOLOCATION (63) option.";
+    reference
+      "RFC 6225: Dynamic Host Configuration Protocol Options for
+       Coordinate-Based Location Configuration Information.";
+    container geolocation-option {
+      presence
+        "Configure OPTION_GEOLOCATION (63).";
+      description
+        "OPTION_GEOLOCATION (63) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping aftr-name-option-group {
+    description
+      "OPTION_AFTR_NAME (64) option.";
+    reference
+      "RFC 6334: Dynamic Host Configuration Protocol for IPv6 (DHCPv6)
+       Option for Dual-Stack Lite.";
+    container aftr-name-option {
+      presence
+        "Configure OPTION_AFTR_NAME (64).";
+      description
+        "OPTION_AFTR_NAME (64) option configuration.";
+      leaf domain-name {
+        type inet:domain-name;
+        mandatory true;
+        description
+          "The domain-name field.";
+      }
+    }
+  }
+
+  grouping erp-local-domain-name-option-group {
+    description
+      "OPTION_ERP_LOCAL_DOMAIN_NAME (65) option.";
+    reference
+      "RFC 6440: The EAP Re-authentication Protocol (ERP) Local Domain
+       Name DHCPv6 Option.";
+    container erp-local-domain-name-option {
+      presence
+        "Configure OPTION_ERP_LOCAL_DOMAIN_NAME (65).";
+      description
+        "OPTION_ERP_LOCAL_DOMAIN_NAME (65) option configuration.";
+      leaf domain-name {
+        type inet:domain-name;
+        mandatory true;
+        description
+          "The domain-name field.";
+      }
+    }
+  }
+
+  grouping mip6-identifier-information-option-group {
+    description
+      "OPTION_MIP6_IDINF (69) option.";
+    reference
+      "RFC 6610: DHCP Options for Home Information Discovery in Mobile
+       IPv6 (MIPv6).";
+    container mip6-identifier-information-option {
+      presence
+        "Configure OPTION_MIP6_IDINF (69).";
+      description
+        "OPTION_MIP6_IDINF (69) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping mip6-update-notification-information-option-group {
+    description
+      "OPTION_MIP6_UDINF (70) option.";
+    reference
+      "RFC 6610: DHCP Options for Home Information Discovery in Mobile
+       IPv6 (MIPv6).";
+    container mip6-update-notification-information-option {
+      presence
+        "Configure OPTION_MIP6_UDINF (70).";
+      description
+        "OPTION_MIP6_UDINF (70) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping mip6-home-network-prefix-option-group {
+    description
+      "OPTION_MIP6_HNP (71) option.";
+    reference
+      "RFC 6610: DHCP Options for Home Information Discovery in Mobile
+       IPv6 (MIPv6).";
+    container mip6-home-network-prefix-option {
+      presence
+        "Configure OPTION_MIP6_HNP (71).";
+      description
+        "OPTION_MIP6_HNP (71) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping mip6-home-agent-address-option-group {
+    description
+      "OPTION_MIP6_HAA (72) option.";
+    reference
+      "RFC 6610: DHCP Options for Home Information Discovery in Mobile
+       IPv6 (MIPv6).";
+    container mip6-home-agent-address-option {
+      presence
+        "Configure OPTION_MIP6_HAA (72).";
+      description
+        "OPTION_MIP6_HAA (72) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping mip6-home-agent-fqdn-option-group {
+    description
+      "OPTION_MIP6_HAF (73) option.";
+    reference
+      "RFC 6610: DHCP Options for Home Information Discovery in Mobile
+       IPv6 (MIPv6).";
+    container mip6-home-agent-fqdn-option {
+      presence
+        "Configure OPTION_MIP6_HAF (73).";
+      description
+        "OPTION_MIP6_HAF (73) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping recursive-dns-server-selection-option-group {
+    description
+      "OPTION_RDNSS_SELECTION (74) option.";
+    reference
+      "RFC 6731: Improved Recursive DNS Server Selection for
+       Multi-Interfaced Nodes.";
+    container recursive-dns-server-selection-option {
+      presence
+        "Configure OPTION_RDNSS_SELECTION (74).";
+      description
+        "OPTION_RDNSS_SELECTION (74) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping kerberos-principal-name-option-group {
+    description
+      "OPTION_KRB_PRINCIPAL_NAME (75) option.";
+    reference
+      "RFC 6784: Kerberos Options for DHCPv6.";
+    container kerberos-principal-name-option {
+      presence
+        "Configure OPTION_KRB_PRINCIPAL_NAME (75).";
+      description
+        "OPTION_KRB_PRINCIPAL_NAME (75) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping kerberos-realm-name-option-group {
+    description
+      "OPTION_KRB_REALM_NAME (76) option.";
+    reference
+      "RFC 6784: Kerberos Options for DHCPv6.";
+    container kerberos-realm-name-option {
+      presence
+        "Configure OPTION_KRB_REALM_NAME (76).";
+      description
+        "OPTION_KRB_REALM_NAME (76) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping kerberos-default-realm-name-option-group {
+    description
+      "OPTION_KRB_DEFAULT_REALM_NAME (77) option.";
+    reference
+      "RFC 6784: Kerberos Options for DHCPv6.";
+    container kerberos-default-realm-name-option {
+      presence
+        "Configure OPTION_KRB_DEFAULT_REALM_NAME (77).";
+      description
+        "OPTION_KRB_DEFAULT_REALM_NAME (77) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping kerberos-kdc-option-group {
+    description
+      "OPTION_KRB_KDC (78) option.";
+    reference
+      "RFC 6784: Kerberos Options for DHCPv6.";
+    container kerberos-kdc-option {
+      presence
+        "Configure OPTION_KRB_KDC (78).";
+      description
+        "OPTION_KRB_KDC (78) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping address-selection-policy-option-group {
+    description
+      "OPTION_ADDRSEL (84) option.";
+    reference
+      "RFC 7078: Distributing Address Selection Policy Using DHCPv6.";
+    container address-selection-policy-option {
+      presence
+        "Configure OPTION_ADDRSEL (84).";
+      description
+        "OPTION_ADDRSEL (84) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping address-selection-policy-table-option-group {
+    description
+      "OPTION_ADDRSEL_TABLE (85) option.";
+    reference
+      "RFC 7078: Distributing Address Selection Policy Using DHCPv6.";
+    container address-selection-policy-table-option {
+      presence
+        "Configure OPTION_ADDRSEL_TABLE (85).";
+      description
+        "OPTION_ADDRSEL_TABLE (85) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping pcp-server-option-group {
+    description
+      "OPTION_V6_PCP_SERVER (86) option.";
+    reference
+      "RFC 7291: DHCP Options for the Port Control Protocol (PCP).";
+    list pcp-server-option {
+      key "instance-id";
+      ordered-by user;
+      description
+        "Ordered instances of OPTION_V6_PCP_SERVER (86); this option is
+         not a singleton in the IANA DHCPv6 Option Codes registry.";
+      leaf instance-id {
+        type uint16;
+        description
+          "Locally significant list key; it is not sent on the wire.";
+      }
+      leaf-list server-address {
+        type inet:ipv6-address;
+        min-elements 1;
+        ordered-by user;
+        description
+          "PCP server IPv6 addresses in wire order.";
+      }
+    }
+  }
+
+  grouping dhcpv4-over-dhcpv6-server-option-group {
+    description
+      "OPTION_DHCP4_O_DHCP6_SERVER (88) option.";
+    reference
+      "RFC 7341: DHCPv4-over-DHCPv6 Transport.";
+    container dhcpv4-over-dhcpv6-server-option {
+      presence
+        "Configure OPTION_DHCP4_O_DHCP6_SERVER (88).";
+      description
+        "OPTION_DHCP4_O_DHCP6_SERVER (88) option configuration.";
+      leaf-list server-address {
+        type inet:ipv6-address;
+        min-elements 1;
+        ordered-by user;
+        description
+          "IPv6 server addresses in wire order.";
+      }
+    }
+  }
+
+  grouping s46-border-relay-option-group {
+    description
+      "OPTION_S46_BR (90) option.";
+    reference
+      "RFC 7598: DHCPv6 Options for Configuration of Softwire Address
+       and Port-Mapped Clients; RFC 8539: Softwire Provisioning Using
+       DHCPv4 over DHCPv6.";
+    list s46-border-relay-option {
+      key "instance-id";
+      ordered-by user;
+      description
+        "Ordered instances of OPTION_S46_BR (90); this option is
+         not a singleton in the IANA DHCPv6 Option Codes registry.";
+      leaf instance-id {
+        type uint16;
+        description
+          "Locally significant list key; it is not sent on the wire.";
+      }
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping s46-mape-container-option-group {
+    description
+      "OPTION_S46_CONT_MAPE (94) option.";
+    reference
+      "RFC 7598: DHCPv6 Options for Configuration of Softwire Address
+       and Port-Mapped Clients.";
+    list s46-mape-container-option {
+      key "instance-id";
+      ordered-by user;
+      description
+        "Ordered instances of OPTION_S46_CONT_MAPE (94); this option is
+         not a singleton in the IANA DHCPv6 Option Codes registry.";
+      leaf instance-id {
+        type uint16;
+        description
+          "Locally significant list key; it is not sent on the wire.";
+      }
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping s46-mapt-container-option-group {
+    description
+      "OPTION_S46_CONT_MAPT (95) option.";
+    reference
+      "RFC 7598: DHCPv6 Options for Configuration of Softwire Address
+       and Port-Mapped Clients.";
+    container s46-mapt-container-option {
+      presence
+        "Configure OPTION_S46_CONT_MAPT (95).";
+      description
+        "OPTION_S46_CONT_MAPT (95) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping s46-lw4over6-container-option-group {
+    description
+      "OPTION_S46_CONT_LW (96) option.";
+    reference
+      "RFC 7598: DHCPv6 Options for Configuration of Softwire Address
+       and Port-Mapped Clients.";
+    container s46-lw4over6-container-option {
+      presence
+        "Configure OPTION_S46_CONT_LW (96).";
+      description
+        "OPTION_S46_CONT_LW (96) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping four-rd-container-option-group {
+    description
+      "OPTION_4RD (97) option.";
+    reference
+      "RFC 7600: IPv4 Residual Deployment via IPv6 - A Stateless
+       Solution (4rd).";
+    container four-rd-container-option {
+      presence
+        "Configure OPTION_4RD (97).";
+      description
+        "OPTION_4RD (97) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping four-rd-map-rule-option-group {
+    description
+      "OPTION_4RD_MAP_RULE (98) option.";
+    reference
+      "RFC 7600: IPv4 Residual Deployment via IPv6 - A Stateless
+       Solution (4rd).";
+    container four-rd-map-rule-option {
+      presence
+        "Configure OPTION_4RD_MAP_RULE (98).";
+      description
+        "OPTION_4RD_MAP_RULE (98) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping four-rd-non-map-rule-option-group {
+    description
+      "OPTION_4RD_NON_MAP_RULE (99) option.";
+    reference
+      "RFC 7600: IPv4 Residual Deployment via IPv6 - A Stateless
+       Solution (4rd).";
+    container four-rd-non-map-rule-option {
+      presence
+        "Configure OPTION_4RD_NON_MAP_RULE (99).";
+      description
+        "OPTION_4RD_NON_MAP_RULE (99) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping captive-portal-option-group {
+    description
+      "DHCP Captive-Portal (103) option.";
+    reference
+      "RFC 8910: Captive-Portal Identification in DHCP and Router
+       Advertisements.";
+    container captive-portal-option {
+      presence
+        "Configure DHCP Captive-Portal (103).";
+      description
+        "DHCP Captive-Portal (103) option configuration.";
+      leaf uri {
+        type inet:uri;
+        mandatory true;
+        description
+          "The URI carried by the option.";
+      }
+    }
+  }
+
+  grouping mpl-parameters-option-group {
+    description
+      "OPTION_MPL_PARAMETERS (104) option.";
+    reference
+      "RFC 7774: Multicast Protocol for Low-Power and Lossy Networks
+       (MPL) Parameter Configuration Option for DHCPv6.";
+    list mpl-parameters-option {
+      key "instance-id";
+      ordered-by user;
+      description
+        "Ordered instances of OPTION_MPL_PARAMETERS (104); this option is
+         not a singleton in the IANA DHCPv6 Option Codes registry.";
+      leaf instance-id {
+        type uint16;
+        description
+          "Locally significant list key; it is not sent on the wire.";
+      }
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping s46-priority-option-group {
+    description
+      "OPTION_S46_PRIORITY (111) option.";
+    reference
+      "RFC 8026: Unified IPv4-in-IPv6 Softwire Customer Premises
+       Equipment (CPE): A DHCPv6-Based Prioritization Mechanism.";
+    container s46-priority-option {
+      presence
+        "Configure OPTION_S46_PRIORITY (111).";
+      description
+        "OPTION_S46_PRIORITY (111) option configuration.";
+      leaf-list s46-option-code {
+        type uint16;
+        min-elements 1;
+        ordered-by user;
+        description
+          "Softwire46 container option codes in priority order.";
+      }
+    }
+  }
+
+  grouping sztp-redirect-option-group {
+    description
+      "OPTION_V6_SZTP_REDIRECT (136) option.";
+    reference
+      "RFC 8572: Secure Zero Touch Provisioning (SZTP).";
+    container sztp-redirect-option {
+      presence
+        "Configure OPTION_V6_SZTP_REDIRECT (136).";
+      description
+        "OPTION_V6_SZTP_REDIRECT (136) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping dots-reference-identifier-option-group {
+    description
+      "OPTION_V6_DOTS_RI (141) option.";
+    reference
+      "RFC 8973: DDoS Open Threat Signaling (DOTS) Agent Discovery.";
+    container dots-reference-identifier-option {
+      presence
+        "Configure OPTION_V6_DOTS_RI (141).";
+      description
+        "OPTION_V6_DOTS_RI (141) option configuration.";
+      leaf domain-name {
+        type inet:domain-name;
+        mandatory true;
+        description
+          "The domain-name field.";
+      }
+    }
+  }
+
+  grouping dots-address-option-group {
+    description
+      "OPTION_V6_DOTS_ADDRESS (142) option.";
+    reference
+      "RFC 8973: DDoS Open Threat Signaling (DOTS) Agent Discovery.";
+    container dots-address-option {
+      presence
+        "Configure OPTION_V6_DOTS_ADDRESS (142).";
+      description
+        "OPTION_V6_DOTS_ADDRESS (142) option configuration.";
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping andsf-ipv6-address-option-group {
+    description
+      "OPTION-IPv6_Address-ANDSF (143) option.";
+    reference
+      "RFC 6153: DHCPv4 and DHCPv6 Options for Access Network Discovery
+       and Selection Function (ANDSF) Discovery.";
+    container andsf-ipv6-address-option {
+      presence
+        "Configure OPTION-IPv6_Address-ANDSF (143).";
+      description
+        "OPTION-IPv6_Address-ANDSF (143) option configuration.";
+      leaf-list server-address {
+        type inet:ipv6-address;
+        min-elements 1;
+        ordered-by user;
+        description
+          "IPv6 server addresses in wire order.";
+      }
+    }
+  }
+
+  grouping v6-dnr-option-group {
+    description
+      "OPTION_V6_DNR (144) option.";
+    reference
+      "RFC 9463: DHCP and Router Advertisement Options for the
+       Discovery of Network-designated Resolvers (DNR).";
+    list v6-dnr-option {
+      key "instance-id";
+      ordered-by user;
+      description
+        "Ordered instances of OPTION_V6_DNR (144); this option is
+         not a singleton in the IANA DHCPv6 Option Codes registry.";
+      leaf instance-id {
+        type uint16;
+        description
+          "Locally significant list key; it is not sent on the wire.";
+      }
+      leaf option-data {
+        type binary;
+        mandatory true;
+        description
+          "OPTION_DATA in network byte order, excluding OPTION_CODE
+           and OPTION_LEN.  Its fields and ordering are defined by
+           the referenced RFC.";
+      }
+    }
+  }
+
+  grouping registered-domain-option-group {
+    description
+      "OPTION_REGISTERED_DOMAIN (145) option.";
+    reference
+      "RFC 9527: DHCPv6 Options for the Homenet Naming Authority,
+       Section 4.1.";
+    list registered-domain-option {
+      key "instance-id";
+      ordered-by user;
+      description
+        "Ordered instances of OPTION_REGISTERED_DOMAIN (145); this option is
+         not a singleton in the IANA DHCPv6 Option Codes registry.";
+      leaf instance-id {
+        type uint16;
+        description
+          "Locally significant list key; it is not sent on the wire.";
+      }
+      leaf registered-homenet-domain {
+        type inet:domain-name;
+        mandatory true;
+        description
+          "The Registered Homenet Domain field.";
+      }
+    }
+  }
+
+  grouping forward-distribution-manager-option-group {
+    description
+      "OPTION_FORWARD_DIST_MANAGER (146) option.";
+    reference
+      "RFC 9527: DHCPv6 Options for the Homenet Naming Authority,
+       Section 4.2.";
+    container forward-distribution-manager-option {
+      presence
+        "Configure OPTION_FORWARD_DIST_MANAGER (146).";
+      description
+        "OPTION_FORWARD_DIST_MANAGER (146) option configuration.";
+      leaf supported-transport {
+        type bits {
+          bit domtls {
+            position 0;
+            description
+              "DNS over mutually authenticated TLS.";
+          }
+        }
+        mandatory true;
+        description
+          "The 16-bit Supported Transport bitmap.  Unassigned bits
+           are intentionally unavailable for configuration.";
+      }
+      leaf distribution-manager-fqdn {
+        type inet:domain-name;
+        mandatory true;
+        description
+          "The Distribution Manager FQDN field.";
+      }
+    }
+  }
+
+  grouping reverse-distribution-manager-option-group {
+    description
+      "OPTION_REVERSE_DIST_MANAGER (147) option.";
+    reference
+      "RFC 9527: DHCPv6 Options for the Homenet Naming Authority,
+       Section 4.3.";
+    container reverse-distribution-manager-option {
+      presence
+        "Configure OPTION_REVERSE_DIST_MANAGER (147).";
+      description
+        "OPTION_REVERSE_DIST_MANAGER (147) option configuration.";
+      leaf supported-transport {
+        type bits {
+          bit domtls {
+            position 0;
+            description
+              "DNS over mutually authenticated TLS.";
+          }
+        }
+        mandatory true;
+        description
+          "The 16-bit Supported Transport bitmap.  Unassigned bits
+           are intentionally unavailable for configuration.";
+      }
+      leaf distribution-manager-fqdn {
+        type inet:domain-name;
+        mandatory true;
+        description
+          "The Distribution Manager FQDN field.";
+      }
+    }
+  }
+
+  grouping address-registration-enable-option-group {
+    description
+      "OPTION_ADDR_REG_ENABLE (148) option.";
+    reference
+      "RFC 9686: DHCPv6 Options for Address Registration.";
+    container address-registration-enable-option {
+      presence
+        "Configure OPTION_ADDR_REG_ENABLE (148).";
+      description
+        "OPTION_ADDR_REG_ENABLE (148) option configuration.";
+      // OPTION_ADDR_REG_ENABLE has zero-length OPTION_DATA.  Presence
+      // of this presence container is the complete configuration.
+    }
+  }
+
+  grouping additional-server-options {
+    description
+      "Standardized server-supplied DHCPv6 options not represented in
+       the RFC 9243 server option-set schema.";
+    uses sip-server-domain-name-list-option-group;
+    uses sip-server-address-list-option-group;
+    uses dns-recursive-name-server-option-group;
+    uses domain-search-list-option-group;
+    uses nis-server-address-list-option-group;
+    uses nisp-server-address-list-option-group;
+    uses nis-domain-name-option-group;
+    uses nisp-domain-name-option-group;
+    uses sntp-server-address-list-option-group;
+    uses bcmcs-server-domain-name-list-option-group;
+    uses bcmcs-server-address-list-option-group;
+    uses geoconf-civic-option-group;
+    uses client-fqdn-option-group;
+    uses pana-agent-option-group;
+    uses posix-timezone-option-group;
+    uses tzdb-timezone-option-group;
+    uses mip6-home-network-id-fqdn-option-group;
+    uses mip6-visited-home-network-info-option-group;
+    uses lost-server-domain-name-option-group;
+    uses capwap-ac-address-list-option-group;
+    uses mos-ipv6-address-option-group;
+    uses mos-ipv6-fqdn-option-group;
+    uses ntp-server-option-group;
+    uses access-network-domain-name-option-group;
+    uses sip-ua-configuration-service-domains-option-group;
+    uses boot-file-url-option-group;
+    uses boot-file-parameter-option-group;
+    uses network-interface-id-option-group;
+    uses geolocation-option-group;
+    uses aftr-name-option-group;
+    uses erp-local-domain-name-option-group;
+    uses mip6-identifier-information-option-group;
+    uses mip6-update-notification-information-option-group;
+    uses mip6-home-network-prefix-option-group;
+    uses mip6-home-agent-address-option-group;
+    uses mip6-home-agent-fqdn-option-group;
+    uses recursive-dns-server-selection-option-group;
+    uses kerberos-principal-name-option-group;
+    uses kerberos-realm-name-option-group;
+    uses kerberos-default-realm-name-option-group;
+    uses kerberos-kdc-option-group;
+    uses address-selection-policy-option-group;
+    uses address-selection-policy-table-option-group;
+    uses pcp-server-option-group;
+    uses dhcpv4-over-dhcpv6-server-option-group;
+    uses s46-border-relay-option-group;
+    uses s46-mape-container-option-group;
+    uses s46-mapt-container-option-group;
+    uses s46-lw4over6-container-option-group;
+    uses four-rd-container-option-group;
+    uses four-rd-map-rule-option-group;
+    uses four-rd-non-map-rule-option-group;
+    uses captive-portal-option-group;
+    uses mpl-parameters-option-group;
+    uses s46-priority-option-group;
+    uses sztp-redirect-option-group;
+    uses dots-reference-identifier-option-group;
+    uses dots-address-option-group;
+    uses andsf-ipv6-address-option-group;
+    uses v6-dnr-option-group;
+    uses registered-domain-option-group;
+    uses forward-distribution-manager-option-group;
+    uses reverse-distribution-manager-option-group;
+    uses address-registration-enable-option-group;
+  }
+
+  augment "/dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/"
+        + "dhc6-srv:option-set" {
+    description
+      "Add the uncovered standardized server options to each RFC 9243
+       DHCPv6 option set.";
+    uses additional-server-options;
+  }
+}
