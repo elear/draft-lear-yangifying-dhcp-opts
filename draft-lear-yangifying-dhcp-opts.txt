@@ -2,7 +2,7 @@
 
 
 
-dhc                                                           Y. N. Here
+Network Working Group                                            E. Lear
 Internet-Draft                                    Your Organization Here
 Intended status: Standards Track                       17 September 2026
 Expires: 21 March 2027
@@ -13,23 +13,23 @@ Expires: 21 March 2027
 
 Abstract
 
-   TODO Abstract
+   This memo specifies the process for creating YANG versions of DHCP
+   server options.  By providing the appropriate data model, automation
+   of both YANG-based management systems and DHCP systems can be
+   improved.
 
 About This Document
 
    This note is to be removed before publishing as an RFC.
 
    The latest revision of this draft can be found at
-   https://example.com/LATEST.  Status information for this document may
+   https://elear.github.io/draft-lear-yangifying-dhcp-opts/draft-lear-
+   yangifying-dhcp-opts.html.  Status information for this document may
    be found at https://datatracker.ietf.org/doc/draft-lear-yangifying-
    dhcp-opts/.
 
-   Discussion of this document takes place on the WG Working Group
-   mailing list (mailto:WG@example.com), which is archived at
-   https://example.com/WG.
-
    Source for this draft and an issue tracker can be found at
-   https://github.com/USER/REPO.
+   https://github.com/elear/draft-lear-yangifying-dhcp-opts.
 
 Status of This Memo
 
@@ -65,18 +65,43 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
-   2.  Conventions and Definitions
-   3.  Security Considerations
-   4.  IANA Considerations
-   5.  Normative References
+     1.1.  Conventions and Definitions
+   2.  Security Considerations
+   3.  IANA Considerations
+   4.  Normative References
    Acknowledgments
    Author's Address
 
 1.  Introduction
 
-   TODO Introduction
+   DHCP options contain whole lot of Cool Stuff that clients might like
+   to know about their current environment.  The hint is in the name as
+   to how this information has been transported: DHCP.  But those
+   options can be used in other ways, either to configure clients
+   through other substrates or even as part of a broader management
+   framework to configure DHCP servers themselves.
 
-2.  Conventions and Definitions
+   For example, if the inforamtion is properly structured it could be
+   included at the EAP layer as part of TEAP /* Reference here */
+
+   [RFC9243] has specified YANG schema definitions for DHCP as well as
+   an extension approach.  This memo follows that model and remains
+   focused on DHCPv6.
+
+   DHCP has been around a very long time, since the 1990s, and its
+   predecessor BOOTP may have co-existed with dinosaurs.  The
+   implication of this is that options specifications were strictly
+   narrative alongside a packet diagram.  The specification of the
+   option contents themselves was not governed by a former data model.
+   This draft changes how new options get defined so that YANG is now
+   used to defined the option contents.  For this reason it updates /*
+   reference here */.
+
+   Finally, we provide an initial registry of server options that have
+   already been defined.  For the sake of sanity, we have not attempted
+   to go beyond simple typing found in /* reference here */.
+
+1.1.  Conventions and Definitions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
@@ -84,15 +109,15 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-3.  Security Considerations
+2.  Security Considerations
 
    TODO Security
 
-4.  IANA Considerations
+3.  IANA Considerations
 
-   This document has no IANA actions.
+   TODO IANA considerations.
 
-5.  Normative References
+4.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -103,12 +128,16 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
+   [RFC9243]  Farrer, I., Ed., "A YANG Data Model for DHCPv6
+              Configuration", RFC 9243, DOI 10.17487/RFC9243, June 2022,
+              <https://www.rfc-editor.org/rfc/rfc9243>.
+
 Acknowledgments
 
    TODO acknowledge.
 
 Author's Address
 
-   Your Name Here
+   Eliot Lear
    Your Organization Here
-   Email: your.email@example.com
+   Email: lear@lear.ch
