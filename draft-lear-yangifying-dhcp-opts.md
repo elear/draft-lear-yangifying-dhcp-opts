@@ -9,18 +9,18 @@ number:
 date:
 consensus: true
 v: 3
-area: int
-workgroup: dhc
+# area: int
+# workgroup: dhc
 keyword:
  - dhcp
  - yang
 venue:
-  group: WG
-  type: Working Group
-  mail: WG@example.com
-  arch: https://example.com/WG
-  github: USER/REPO
-  latest: https://example.com/LATEST
+#  group: WG
+#  type: Working Group
+#  mail: WG@example.com
+#  arch: https://example.com/WG
+  github: "elear/draft-lear-yangifying-dhcp-opts"
+  latest: "https://elear.github.io/draft-lear-yangifying-dhcp-opts/draft-lear-yangifying-dhcp-opts.html"
 
 author:
  -
