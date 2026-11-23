@@ -2,10 +2,11 @@
 
 
 
-Network Working Group                                          I. Farrer
-Internet-Draft                                       Deutsche Telekom AG
-Intended status: Standards Track                        23 November 2026
-Expires: 27 May 2027
+Network Working Group                                            E. Lear
+Internet-Draft                                    Your Organization Here
+Intended status: Standards Track                               I. Farrer
+Expires: 27 May 2027                                 Deutsche Telekom AG
+                                                        23 November 2026
 
 
                           DHCP Options in YANG
@@ -196,7 +197,7 @@ Table of Contents
    3.  IANA Considerations
    4.  Normative References
    Appendix A.  Acknowledgments
-   Author's Address
+   Authors' Addresses
 
 1.  Introduction
 
@@ -12611,7 +12612,12 @@ Appendix A.  Acknowledgments
 
    TODO acknowledge.
 
-Author's Address
+Authors' Addresses
+
+   Eliot Lear
+   Your Organization Here
+   Email: lear@lear.ch
+
 
    Ian Farrer
    Deutsche Telekom AG
