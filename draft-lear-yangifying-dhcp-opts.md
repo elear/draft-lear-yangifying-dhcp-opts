@@ -27,7 +27,7 @@ author:
     fullname: "Eliot Lear"
     organization: Your Organization Here
     email: "lear@lear.ch"
-
+ -
     fullname: "Ian Farrer"
     organization: Deutsche Telekom AG
     email: "ianfarrer@telekom.de"
