@@ -1,0 +1,58 @@
+module ietf-dhcpv6-opt-s46-binding-prefix {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-s46-binding-prefix";
+  prefix s46-bind;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 8539: Softwire
+      Provisioning Using DHCPv6.";
+  reference "RFC 8539: Softwire Provisioning Using DHCPv6";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 8539: Softwire Provisioning Using DHCPv6";
+  }
+
+  grouping s46-bind-ipv6-prefix-option-group {
+    description "OPTION_S46_BIND_IPV6_PREFIX (137) S46 Binding IPv6
+      Prefix Option.";
+    reference "RFC 8539: Softwire Provisioning Using DHCPv6";
+    container s46-bind-ipv6-prefix-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_S46_BIND_IPV6_PREFIX (137) S46 Binding IPv6
+        Prefix Option option.";
+      leaf binding-ipv6-prefix {
+        type inet:ipv6-prefix;
+        description "Binding IPv6 prefix.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 8539 options.";
+    uses s46-bind-ipv6-prefix-option-group;
+  }
+
+}

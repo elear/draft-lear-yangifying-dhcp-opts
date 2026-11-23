@@ -1,0 +1,52 @@
+module ietf-dhcpv6-opt-echo-request {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-echo-request";
+  prefix echo-req;
+
+  import ietf-dhcpv6-relay {
+    prefix dhc6-rly;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 4994: DHCPv6
+      Relay Agent Echo Request Option.";
+  reference "RFC 4994: DHCPv6 Relay Agent Echo Request Option";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 4994: DHCPv6 Relay Agent Echo Request Option";
+  }
+
+  grouping echo-request-option-group {
+    description "OPTION_ERO (43) Relay Agent Echo Request Option.";
+    reference "RFC 4994: DHCPv6 Relay Agent Echo Request Option";
+    container echo-request-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_ERO (43) Relay Agent Echo Request Option
+        option.";
+      leaf-list option-code {
+        type uint16;
+        description "Option code to echo.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-rly:dhcpv6-relay/"
+      + "dhc6-rly:relay-if/"
+      + "dhc6-rly:relay-options" {
+    description "Add RFC 4994 options.";
+    uses echo-request-option-group;
+  }
+
+}

@@ -1,0 +1,5 @@
+module: ietf-dhcpv6-opt-sip-ua
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw sip-ua-cs-list-option!
+       +--rw service-uri* inet:uri

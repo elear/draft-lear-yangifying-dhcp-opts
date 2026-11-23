@@ -1,0 +1,16 @@
+module: ietf-dhcpv6-opt-ani
+  augment /dhc6-rly:dhcpv6-relay/dhc6-rly:relay-if/
+         dhc6-rly:relay-options:
+    +--rw ani-att-option!
+       +--rw access-network-type? uint8
+       +--rw access-network-technology? uint8
+    +--rw ani-network-name-option!
+       +--rw network-name? string
+    +--rw ani-ap-name-option!
+       +--rw access-point-name? string
+    +--rw ani-ap-bssid-option!
+       +--rw access-point-bssid? binary
+    +--rw ani-operator-id-option!
+       +--rw operator-identifier? string
+    +--rw ani-operator-realm-option!
+       +--rw operator-realm? string

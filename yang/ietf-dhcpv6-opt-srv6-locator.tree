@@ -1,0 +1,10 @@
+module: ietf-dhcpv6-opt-srv6-locator
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw ia-srv6-locator-option!
+       +--rw iaid? uint32
+       +--rw locator* inet:ipv6-prefix
+    +--rw ialocator-option!
+       +--rw locator? inet:ipv6-prefix
+       +--rw preferred-lifetime? uint32
+       +--rw valid-lifetime? uint32

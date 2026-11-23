@@ -1,0 +1,64 @@
+module ietf-dhcpv6-opt-civic {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-civic";
+  prefix civic;
+
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 4776: Dynamic
+      Host Configuration Protocol (DHCPv4 and DHCPv6) Option for Civic
+      Addresses Configuration Information.";
+  reference "RFC 4776: Dynamic Host Configuration Protocol (DHCPv4 and
+    DHCPv6) Option for Civic Addresses Configuration Information";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 4776: Dynamic Host Configuration Protocol (DHCPv4
+      and DHCPv6) Option for Civic Addresses Configuration Information";
+  }
+
+  grouping geoconf-civic-option-group {
+    description "OPTION_GEOCONF_CIVIC (36) Geolocation Civic Option.";
+    reference "RFC 4776: Dynamic Host Configuration Protocol (DHCPv4
+      and DHCPv6) Option for Civic Addresses Configuration Information";
+    container geoconf-civic-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_GEOCONF_CIVIC (36) Geolocation Civic Option
+        option.";
+      leaf what {
+        type uint8;
+        description "Entity the civic location describes.";
+      }
+      leaf country-code {
+        type string;
+        description "Two-character ISO 3166 country code.";
+      }
+      leaf-list civic-address-element {
+        type binary;
+        description "Civic address element type, length, and value.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 4776 options.";
+    uses geoconf-civic-option-group;
+  }
+
+}

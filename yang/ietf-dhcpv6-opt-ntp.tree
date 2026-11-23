@@ -1,0 +1,7 @@
+module: ietf-dhcpv6-opt-ntp
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw ntp-server-option!
+       +--rw server-address* inet:ipv6-address
+       +--rw multicast-address* inet:ipv6-address
+       +--rw server-fqdn* inet:domain-name

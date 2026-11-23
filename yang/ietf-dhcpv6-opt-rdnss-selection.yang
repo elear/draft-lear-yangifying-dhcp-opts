@@ -1,0 +1,64 @@
+module ietf-dhcpv6-opt-rdnss-selection {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-rdnss-selection";
+  prefix rdnss-se;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 6731: Improved
+      Recursive DNS Server Selection for Multi-Interfaced Nodes.";
+  reference "RFC 6731: Improved Recursive DNS Server Selection for
+    Multi-Interfaced Nodes";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 6731: Improved Recursive DNS Server Selection for
+      Multi-Interfaced Nodes";
+  }
+
+  grouping rdnss-selection-option-group {
+    description "OPTION_RDNSS_SELECTION (74) RDNSS Selection Option.";
+    reference "RFC 6731: Improved Recursive DNS Server Selection for
+      Multi-Interfaced Nodes";
+    container rdnss-selection-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_RDNSS_SELECTION (74) RDNSS Selection Option
+        option.";
+      leaf-list prefix {
+        type inet:ipv6-prefix;
+        description "Prefix associated with DNS servers.";
+      }
+      leaf-list dns-server {
+        type inet:ipv6-address;
+        description "Recursive DNS server address.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 6731 options.";
+    uses rdnss-selection-option-group;
+  }
+
+}

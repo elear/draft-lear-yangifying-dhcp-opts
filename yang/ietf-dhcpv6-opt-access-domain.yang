@@ -1,0 +1,57 @@
+module ietf-dhcpv6-opt-access-domain {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-access-domain";
+  prefix access-d;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 5986: DHCPv6
+      Options for Access Domain.";
+  reference "RFC 5986: DHCPv6 Options for Access Domain";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 5986: DHCPv6 Options for Access Domain";
+  }
+
+  grouping v6-access-domain-option-group {
+    description "OPTION_V6_ACCESS_DOMAIN (57) Access Domain Option.";
+    reference "RFC 5986: DHCPv6 Options for Access Domain";
+    container v6-access-domain-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_V6_ACCESS_DOMAIN (57) Access Domain Option
+        option.";
+      leaf access-domain-name {
+        type inet:domain-name;
+        description "Access domain name.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 5986 options.";
+    uses v6-access-domain-option-group;
+  }
+
+}

@@ -1,0 +1,5 @@
+module: ietf-dhcpv6-opt-link-address
+  augment /dhc6-clnt:dhcpv6-client/dhc6-clnt:client-if/
+         dhc6-clnt:client-configured-options:
+    +--rw link-address-option!
+       +--rw link-address? inet:ipv6-address

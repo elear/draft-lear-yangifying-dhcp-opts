@@ -1,0 +1,63 @@
+module ietf-dhcpv6-opt-client-fqdn {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-client-fqdn";
+  prefix client-f;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 4704: The DHCP
+      Client Fully Qualified Domain Name (FQDN) Option.";
+  reference "RFC 4704: The DHCP Client Fully Qualified Domain Name
+    (FQDN) Option";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 4704: The DHCP Client Fully Qualified Domain Name
+      (FQDN) Option";
+  }
+
+  grouping client-fqdn-option-group {
+    description "OPTION_CLIENT_FQDN (39) Client FQDN Option.";
+    reference "RFC 4704: The DHCP Client Fully Qualified Domain Name
+      (FQDN) Option";
+    container client-fqdn-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_CLIENT_FQDN (39) Client FQDN Option option.";
+      leaf flags {
+        type uint8;
+        description "Flags field.";
+      }
+      leaf domain-name {
+        type inet:domain-name;
+        description "Client fully qualified domain name.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 4704 options.";
+    uses client-fqdn-option-group;
+  }
+
+}

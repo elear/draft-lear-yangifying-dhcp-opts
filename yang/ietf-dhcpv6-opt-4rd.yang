@@ -1,0 +1,87 @@
+module ietf-dhcpv6-opt-4rd {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-4rd";
+  prefix opt-4rd;
+
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 7600: IPv4
+      Residual Deployment via IPv6 (4rd) - A DHCPv6 Option.";
+  reference "RFC 7600: IPv4 Residual Deployment via IPv6 (4rd) - A
+    DHCPv6 Option";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 7600: IPv4 Residual Deployment via IPv6 (4rd) - A
+      DHCPv6 Option";
+  }
+
+  grouping option-4rd-option-group {
+    description "OPTION_4RD (97) 4rd Option.";
+    reference "RFC 7600: IPv4 Residual Deployment via IPv6 (4rd) - A
+      DHCPv6 Option";
+    container option-4rd-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_4RD (97) 4rd Option option.";
+      leaf four-rd-data {
+        type binary;
+        description "4rd configuration data.";
+      }
+    }
+  }
+
+  grouping option-4rd-map-rule-option-group {
+    description "OPTION_4RD_MAP_RULE (98) 4rd Mapping Rule Option.";
+    reference "RFC 7600: IPv4 Residual Deployment via IPv6 (4rd) - A
+      DHCPv6 Option";
+    container option-4rd-map-rule-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_4RD_MAP_RULE (98) 4rd Mapping Rule Option
+        option.";
+      leaf-list map-rule {
+        type binary;
+        description "4rd mapping rule fields.";
+      }
+    }
+  }
+
+  grouping option-4rd-non-map-rule-option-group {
+    description "OPTION_4RD_NON_MAP_RULE (99) 4rd Non-mapping Rule
+      Option.";
+    reference "RFC 7600: IPv4 Residual Deployment via IPv6 (4rd) - A
+      DHCPv6 Option";
+    container option-4rd-non-map-rule-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_4RD_NON_MAP_RULE (99) 4rd Non-mapping Rule
+        Option option.";
+      leaf-list non-map-rule {
+        type binary;
+        description "4rd non-mapping rule fields.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 7600 options.";
+    uses option-4rd-option-group;
+    uses option-4rd-map-rule-option-group;
+    uses option-4rd-non-map-rule-option-group;
+  }
+
+}

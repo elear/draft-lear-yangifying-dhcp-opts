@@ -1,0 +1,89 @@
+module ietf-dhcpv6-opt-srv6-locator {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-srv6-locator";
+  prefix srv6-loc;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 10038:
+      Distributing the Segment Routing over IPv6 (SRv6) Locator Using
+      DHCPv6.";
+  reference "RFC 10038: Distributing the Segment Routing over IPv6
+    (SRv6) Locator Using DHCPv6";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 10038: Distributing the Segment Routing over IPv6
+      (SRv6) Locator Using DHCPv6";
+  }
+
+  grouping ia-srv6-locator-option-group {
+    description "OPTION_IA_SRV6_LOCATOR (149) Identity Association for
+      SRv6 Locator Option.";
+    reference "RFC 10038: Distributing the Segment Routing over IPv6
+      (SRv6) Locator Using DHCPv6";
+    container ia-srv6-locator-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_IA_SRV6_LOCATOR (149) Identity Association
+        for SRv6 Locator Option option.";
+      leaf iaid {
+        type uint32;
+        description "Identity association identifier.";
+      }
+      leaf-list locator {
+        type inet:ipv6-prefix;
+        description "SRv6 locator.";
+      }
+    }
+  }
+
+  grouping ialocator-option-group {
+    description "OPTION_IALOCATOR (150) SRv6 Locator Option.";
+    reference "RFC 10038: Distributing the Segment Routing over IPv6
+      (SRv6) Locator Using DHCPv6";
+    container ialocator-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_IALOCATOR (150) SRv6 Locator Option option.";
+      leaf locator {
+        type inet:ipv6-prefix;
+        description "SRv6 locator.";
+      }
+      leaf preferred-lifetime {
+        type uint32;
+        description "Preferred lifetime.";
+      }
+      leaf valid-lifetime {
+        type uint32;
+        description "Valid lifetime.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 10038 options.";
+    uses ia-srv6-locator-option-group;
+    uses ialocator-option-group;
+  }
+
+}

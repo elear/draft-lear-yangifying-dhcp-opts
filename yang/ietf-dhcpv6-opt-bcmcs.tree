@@ -1,0 +1,7 @@
+module: ietf-dhcpv6-opt-bcmcs
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw bcmcs-server-domain-name-list-option!
+       +--rw bcmcs-server-domain-name* inet:domain-name
+    +--rw bcmcs-server-address-list-option!
+       +--rw bcmcs-server-address* inet:ipv6-address

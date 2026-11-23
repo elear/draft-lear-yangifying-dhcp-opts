@@ -1,0 +1,58 @@
+module ietf-dhcpv6-opt-s46-priority {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-s46-priority";
+  prefix s46-prio;
+
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 8026: Unified
+      IPv4-in-IPv6 Softwire Customer Premises Equipment (CPE): A
+      DHCPv6-Based Prioritization Mechanism.";
+  reference "RFC 8026: Unified IPv4-in-IPv6 Softwire Customer Premises
+    Equipment (CPE): A DHCPv6-Based Prioritization Mechanism";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 8026: Unified IPv4-in-IPv6 Softwire Customer
+      Premises Equipment (CPE): A DHCPv6-Based Prioritization
+      Mechanism";
+  }
+
+  grouping s46-priority-option-group {
+    description "OPTION_S46_PRIORITY (111) S46 Priority Option.";
+    reference "RFC 8026: Unified IPv4-in-IPv6 Softwire Customer
+      Premises Equipment (CPE): A DHCPv6-Based Prioritization
+      Mechanism";
+    container s46-priority-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_S46_PRIORITY (111) S46 Priority Option
+        option.";
+      leaf-list option-code {
+        type uint16;
+        description "Prioritized S46 option code.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 8026 options.";
+    uses s46-priority-option-group;
+  }
+
+}

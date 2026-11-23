@@ -1,0 +1,52 @@
+module ietf-dhcpv6-opt-relay-port {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-relay-port";
+  prefix relay-po;
+
+  import ietf-dhcpv6-relay {
+    prefix dhc6-rly;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 8357: DHCPv6
+      Relay Agent Port Option.";
+  reference "RFC 8357: DHCPv6 Relay Agent Port Option";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 8357: DHCPv6 Relay Agent Port Option";
+  }
+
+  grouping relay-port-option-group {
+    description "OPTION_RELAY_PORT (135) Relay Agent Port Option.";
+    reference "RFC 8357: DHCPv6 Relay Agent Port Option";
+    container relay-port-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_RELAY_PORT (135) Relay Agent Port Option
+        option.";
+      leaf relay-port {
+        type uint16;
+        description "Relay agent source port.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-rly:dhcpv6-relay/"
+      + "dhc6-rly:relay-if/"
+      + "dhc6-rly:relay-options" {
+    description "Add RFC 8357 options.";
+    uses relay-port-option-group;
+  }
+
+}

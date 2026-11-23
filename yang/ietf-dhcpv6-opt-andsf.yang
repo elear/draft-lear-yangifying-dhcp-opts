@@ -1,0 +1,62 @@
+module ietf-dhcpv6-opt-andsf {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-andsf";
+  prefix andsf;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 6153: DHCPv6 and
+      DHCPv4 Options for Access Network Discovery and Selection
+      Function (ANDSF) Discovery.";
+  reference "RFC 6153: DHCPv6 and DHCPv4 Options for Access Network
+    Discovery and Selection Function (ANDSF) Discovery";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 6153: DHCPv6 and DHCPv4 Options for Access Network
+      Discovery and Selection Function (ANDSF) Discovery";
+  }
+
+  grouping ipv6-address-andsf-option-group {
+    description "OPTION-IPv6_Address-ANDSF (143) IPv6 Address ANDSF
+      Option.";
+    reference "RFC 6153: DHCPv6 and DHCPv4 Options for Access Network
+      Discovery and Selection Function (ANDSF) Discovery";
+    container ipv6-address-andsf-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION-IPv6_Address-ANDSF (143) IPv6 Address ANDSF
+        Option option.";
+      leaf-list andsf-server-address {
+        type inet:ipv6-address;
+        description "ANDSF server IPv6 address.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 6153 options.";
+    uses ipv6-address-andsf-option-group;
+  }
+
+}

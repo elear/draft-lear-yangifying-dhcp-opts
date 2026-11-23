@@ -1,0 +1,112 @@
+module ietf-dhcpv6-opt-nis {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-nis";
+  prefix nis;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 3898: Network
+      Information Service (NIS) Configuration Options for DHCPv6.";
+  reference "RFC 3898: Network Information Service (NIS) Configuration
+    Options for DHCPv6";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 3898: Network Information Service (NIS)
+      Configuration Options for DHCPv6";
+  }
+
+  grouping nis-servers-option-group {
+    description "OPTION_NIS_SERVERS (27) Network Information Service
+      Servers Option.";
+    reference "RFC 3898: Network Information Service (NIS)
+      Configuration Options for DHCPv6";
+    container nis-servers-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_NIS_SERVERS (27) Network Information Service
+        Servers Option option.";
+      leaf-list nis-server {
+        type inet:ipv6-address;
+        description "NIS server address.";
+      }
+    }
+  }
+
+  grouping nisp-servers-option-group {
+    description "OPTION_NISP_SERVERS (28) Network Information Service+
+      Servers Option.";
+    reference "RFC 3898: Network Information Service (NIS)
+      Configuration Options for DHCPv6";
+    container nisp-servers-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_NISP_SERVERS (28) Network Information
+        Service+ Servers Option option.";
+      leaf-list nisp-server {
+        type inet:ipv6-address;
+        description "NIS+ server address.";
+      }
+    }
+  }
+
+  grouping nis-domain-name-option-group {
+    description "OPTION_NIS_DOMAIN_NAME (29) Network Information
+      Service Domain Name Option.";
+    reference "RFC 3898: Network Information Service (NIS)
+      Configuration Options for DHCPv6";
+    container nis-domain-name-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_NIS_DOMAIN_NAME (29) Network Information
+        Service Domain Name Option option.";
+      leaf nis-domain-name {
+        type inet:domain-name;
+        description "NIS domain name.";
+      }
+    }
+  }
+
+  grouping nisp-domain-name-option-group {
+    description "OPTION_NISP_DOMAIN_NAME (30) Network Information
+      Service+ Domain Name Option.";
+    reference "RFC 3898: Network Information Service (NIS)
+      Configuration Options for DHCPv6";
+    container nisp-domain-name-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_NISP_DOMAIN_NAME (30) Network Information
+        Service+ Domain Name Option option.";
+      leaf nisp-domain-name {
+        type inet:domain-name;
+        description "NIS+ domain name.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 3898 options.";
+    uses nis-servers-option-group;
+    uses nisp-servers-option-group;
+    uses nis-domain-name-option-group;
+    uses nisp-domain-name-option-group;
+  }
+
+}

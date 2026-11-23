@@ -1,0 +1,5 @@
+module: ietf-dhcpv6-opt-erp-domain
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw erp-local-domain-name-option!
+       +--rw erp-domain-name? inet:domain-name

@@ -1,0 +1,57 @@
+module ietf-dhcpv6-opt-client-link-layer {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-client-link-layer";
+  prefix client-l;
+
+  import ietf-dhcpv6-relay {
+    prefix dhc6-rly;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 6939: Client
+      Link-Layer Address Option in DHCPv6.";
+  reference "RFC 6939: Client Link-Layer Address Option in DHCPv6";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 6939: Client Link-Layer Address Option in DHCPv6";
+  }
+
+  grouping client-linklayer-addr-option-group {
+    description "OPTION_CLIENT_LINKLAYER_ADDR (79) Client Link-Layer
+      Address Option.";
+    reference "RFC 6939: Client Link-Layer Address Option in DHCPv6";
+    container client-linklayer-addr-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_CLIENT_LINKLAYER_ADDR (79) Client Link-Layer
+        Address Option option.";
+      leaf hardware-type {
+        type uint16;
+        description "Hardware type.";
+      }
+      leaf link-layer-address {
+        type binary;
+        description "Client link-layer address.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-rly:dhcpv6-relay/"
+      + "dhc6-rly:relay-if/"
+      + "dhc6-rly:relay-options" {
+    description "Add RFC 6939 options.";
+    uses client-linklayer-addr-option-group;
+  }
+
+}

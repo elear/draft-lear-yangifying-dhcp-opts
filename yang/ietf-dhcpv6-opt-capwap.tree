@@ -1,0 +1,5 @@
+module: ietf-dhcpv6-opt-capwap
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw capwap-ac-v6-option!
+       +--rw capwap-ac-address* inet:ipv6-address

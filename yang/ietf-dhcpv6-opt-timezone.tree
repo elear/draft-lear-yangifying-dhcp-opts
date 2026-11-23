@@ -1,0 +1,7 @@
+module: ietf-dhcpv6-opt-timezone
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw new-posix-timezone-option!
+       +--rw posix-timezone? string
+    +--rw new-tzdb-timezone-option!
+       +--rw tzdb-timezone? string

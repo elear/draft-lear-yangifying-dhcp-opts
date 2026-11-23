@@ -1,0 +1,13 @@
+module: ietf-dhcpv6-opt-network-boot
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw bootfile-url-option!
+       +--rw bootfile-url? inet:uri
+    +--rw bootfile-param-option!
+       +--rw bootfile-parameter* binary
+    +--rw client-arch-type-option!
+       +--rw architecture-type* uint16
+    +--rw nii-option!
+       +--rw interface-type? uint8
+       +--rw major-version? uint8
+       +--rw minor-version? uint8

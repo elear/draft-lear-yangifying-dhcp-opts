@@ -1,0 +1,5 @@
+module: ietf-dhcpv6-opt-s46-priority
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw s46-priority-option!
+       +--rw option-code* uint16

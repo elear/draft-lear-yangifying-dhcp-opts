@@ -1,0 +1,6 @@
+module: ietf-dhcpv6-opt-remote-id
+  augment /dhc6-rly:dhcpv6-relay/dhc6-rly:relay-if/
+         dhc6-rly:relay-options:
+    +--rw remote-id-option!
+       +--rw enterprise-number? uint32
+       +--rw remote-id? binary

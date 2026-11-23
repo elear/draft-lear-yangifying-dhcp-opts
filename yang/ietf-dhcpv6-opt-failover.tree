@@ -1,0 +1,45 @@
+module: ietf-dhcpv6-opt-failover
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw f-binding-status-option!
+       +--rw binding-status? uint8
+    +--rw f-connect-flags-option!
+       +--rw connect-flags? uint8
+    +--rw f-dns-removal-info-option!
+       +--rw dns-removal-information? binary
+    +--rw f-dns-host-name-option!
+       +--rw dns-host-name? inet:domain-name
+    +--rw f-dns-zone-name-option!
+       +--rw dns-zone-name? inet:domain-name
+    +--rw f-dns-flags-option!
+       +--rw dns-flags? uint8
+    +--rw f-expiration-time-option!
+       +--rw expiration-time? uint32
+    +--rw f-max-unacked-bndupd-option!
+       +--rw max-unacked-binding-updates? uint32
+    +--rw f-mclt-option!
+       +--rw mclt? uint32
+    +--rw f-partner-lifetime-option!
+       +--rw partner-lifetime? uint32
+    +--rw f-partner-lifetime-sent-option!
+       +--rw partner-lifetime-sent? uint32
+    +--rw f-partner-down-time-option!
+       +--rw partner-down-time? uint32
+    +--rw f-partner-raw-clt-time-option!
+       +--rw partner-raw-clt-time? uint32
+    +--rw f-protocol-version-option!
+       +--rw protocol-version? uint32
+    +--rw f-keepalive-time-option!
+       +--rw keepalive-time? uint32
+    +--rw f-reconfigure-data-option!
+       +--rw reconfigure-data? binary
+    +--rw f-relationship-name-option!
+       +--rw relationship-name? string
+    +--rw f-server-flags-option!
+       +--rw server-flags? uint8
+    +--rw f-server-state-option!
+       +--rw server-state? uint8
+    +--rw f-start-time-of-state-option!
+       +--rw start-time-of-state? uint32
+    +--rw f-state-expiration-time-option!
+       +--rw state-expiration-time? uint32

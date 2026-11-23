@@ -1,0 +1,78 @@
+module ietf-dhcpv6-opt-dots {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-dots";
+  prefix dots;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 8973:
+      Distributed Denial-of-Service Open Threat Signaling (DOTS)
+      Signal Channel.";
+  reference "RFC 8973: Distributed Denial-of-Service Open Threat
+    Signaling (DOTS) Signal Channel";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 8973: Distributed Denial-of-Service Open Threat
+      Signaling (DOTS) Signal Channel";
+  }
+
+  grouping v6-dots-ri-option-group {
+    description "OPTION_V6_DOTS_RI (141) DOTS Redirected Identifier
+      Option.";
+    reference "RFC 8973: Distributed Denial-of-Service Open Threat
+      Signaling (DOTS) Signal Channel";
+    container v6-dots-ri-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_V6_DOTS_RI (141) DOTS Redirected Identifier
+        Option option.";
+      leaf redirected-identifier {
+        type binary;
+        description "DOTS redirected identifier.";
+      }
+    }
+  }
+
+  grouping v6-dots-address-option-group {
+    description "OPTION_V6_DOTS_ADDRESS (142) DOTS Address Option.";
+    reference "RFC 8973: Distributed Denial-of-Service Open Threat
+      Signaling (DOTS) Signal Channel";
+    container v6-dots-address-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_V6_DOTS_ADDRESS (142) DOTS Address Option
+        option.";
+      leaf-list dots-address {
+        type inet:ipv6-address;
+        description "DOTS server IPv6 address.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 8973 options.";
+    uses v6-dots-ri-option-group;
+    uses v6-dots-address-option-group;
+  }
+
+}

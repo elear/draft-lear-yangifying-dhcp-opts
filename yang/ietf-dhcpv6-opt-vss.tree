@@ -1,0 +1,7 @@
+module: ietf-dhcpv6-opt-vss
+  augment /dhc6-rly:dhcpv6-relay/dhc6-rly:relay-if/
+         dhc6-rly:relay-options:
+    +--rw vss-option!
+       +--rw vss-type? uint8
+       +--rw enterprise-number? uint32
+       +--rw vss-value? binary

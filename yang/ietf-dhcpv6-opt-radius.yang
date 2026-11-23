@@ -1,0 +1,51 @@
+module ietf-dhcpv6-opt-radius {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-radius";
+  prefix radius;
+
+  import ietf-dhcpv6-relay {
+    prefix dhc6-rly;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 7037: RADIUS
+      Option for the DHCPv6 Relay Agent.";
+  reference "RFC 7037: RADIUS Option for the DHCPv6 Relay Agent";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 7037: RADIUS Option for the DHCPv6 Relay Agent";
+  }
+
+  grouping radius-option-group {
+    description "OPTION_RADIUS (81) RADIUS Option.";
+    reference "RFC 7037: RADIUS Option for the DHCPv6 Relay Agent";
+    container radius-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_RADIUS (81) RADIUS Option option.";
+      leaf radius-attributes {
+        type binary;
+        description "RADIUS attribute sequence.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-rly:dhcpv6-relay/"
+      + "dhc6-rly:relay-if/"
+      + "dhc6-rly:relay-options" {
+    description "Add RFC 7037 options.";
+    uses radius-option-group;
+  }
+
+}

@@ -1,0 +1,19 @@
+module: ietf-dhcpv6-opt-leasequery
+  augment /dhc6-clnt:dhcpv6-client/dhc6-clnt:client-if/
+         dhc6-clnt:client-configured-options:
+    +--rw lq-query-option!
+       +--rw query-type? uint8
+       +--rw link-address? inet:ipv6-address
+       +--rw query-address? inet:ipv6-address
+       +--rw client-id? binary
+    +--rw client-data-option!
+       +--rw client-id? binary
+       +--rw clt-time? uint64
+       +--rw ia-data? binary
+    +--rw clt-time-option!
+       +--rw clt-time? uint64
+    +--rw lq-relay-data-option!
+       +--rw peer-address? inet:ipv6-address
+       +--rw relay-message? binary
+    +--rw lq-client-link-option!
+       +--rw client-link-address* inet:ipv6-address

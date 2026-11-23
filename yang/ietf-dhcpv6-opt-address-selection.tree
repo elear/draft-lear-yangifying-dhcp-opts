@@ -1,0 +1,7 @@
+module: ietf-dhcpv6-opt-address-selection
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw addrsel-option!
+       +--rw address-selection-data? binary
+    +--rw addrsel-table-option!
+       +--rw address-selection-table-entry* binary

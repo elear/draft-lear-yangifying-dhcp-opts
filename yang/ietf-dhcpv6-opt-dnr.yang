@@ -1,0 +1,73 @@
+module ietf-dhcpv6-opt-dnr {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-dnr";
+  prefix dnr;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 9463: Discovery
+      of Network-designated Resolvers (DNR) in DHCP.";
+  reference "RFC 9463: Discovery of Network-designated Resolvers (DNR)
+    in DHCP";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 9463: Discovery of Network-designated Resolvers
+      (DNR) in DHCP";
+  }
+
+  grouping v6-dnr-option-group {
+    description "OPTION_V6_DNR (144) DNS Recursive Name Server (DNR)
+      Option.";
+    reference "RFC 9463: Discovery of Network-designated Resolvers
+      (DNR) in DHCP";
+    container v6-dnr-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_V6_DNR (144) DNS Recursive Name Server (DNR)
+        Option option.";
+      leaf-list priority {
+        type uint16;
+        description "Service priority.";
+      }
+      leaf-list adn {
+        type inet:domain-name;
+        description "Authentication domain name.";
+      }
+      leaf-list ipv6-address {
+        type inet:ipv6-address;
+        description "Resolver IPv6 address.";
+      }
+      leaf-list service-parameter {
+        type binary;
+        description "Service parameter data.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 9463 options.";
+    uses v6-dnr-option-group;
+  }
+
+}

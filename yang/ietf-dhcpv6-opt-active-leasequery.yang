@@ -1,0 +1,84 @@
+module ietf-dhcpv6-opt-active-leasequery {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-active-leasequery";
+  prefix active-l;
+
+  import ietf-dhcpv6-client {
+    prefix dhc6-clnt;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 7653: DHCPv6
+      Active Leasequery.";
+  reference "RFC 7653: DHCPv6 Active Leasequery";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 7653: DHCPv6 Active Leasequery";
+  }
+
+  grouping lq-base-time-option-group {
+    description "OPTION_LQ_BASE_TIME (100) Leasequery Base Time
+      Option.";
+    reference "RFC 7653: DHCPv6 Active Leasequery";
+    container lq-base-time-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_LQ_BASE_TIME (100) Leasequery Base Time
+        Option option.";
+      leaf base-time {
+        type uint64;
+        description "Lease database base time.";
+      }
+    }
+  }
+
+  grouping lq-start-time-option-group {
+    description "OPTION_LQ_START_TIME (101) Leasequery Start Time
+      Option.";
+    reference "RFC 7653: DHCPv6 Active Leasequery";
+    container lq-start-time-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_LQ_START_TIME (101) Leasequery Start Time
+        Option option.";
+      leaf start-time {
+        type uint64;
+        description "Leasequery start time.";
+      }
+    }
+  }
+
+  grouping lq-end-time-option-group {
+    description "OPTION_LQ_END_TIME (102) Leasequery End Time Option.";
+    reference "RFC 7653: DHCPv6 Active Leasequery";
+    container lq-end-time-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_LQ_END_TIME (102) Leasequery End Time Option
+        option.";
+      leaf end-time {
+        type uint64;
+        description "Leasequery end time.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-clnt:dhcpv6-client/"
+      + "dhc6-clnt:client-if/"
+      + "dhc6-clnt:client-configured-options" {
+    description "Add RFC 7653 options.";
+    uses lq-base-time-option-group;
+    uses lq-start-time-option-group;
+    uses lq-end-time-option-group;
+  }
+
+}

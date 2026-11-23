@@ -1,0 +1,5 @@
+module: ietf-dhcpv6-opt-pd-exclude
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw pd-exclude-option!
+       +--rw excluded-prefix? inet:ipv6-prefix

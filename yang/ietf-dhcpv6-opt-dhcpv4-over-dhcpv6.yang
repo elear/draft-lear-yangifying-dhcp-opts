@@ -1,0 +1,86 @@
+module ietf-dhcpv6-opt-dhcpv4-over-dhcpv6 {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-dhcpv4-over-dhcpv6";
+  prefix dhcpv4-o;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-relay {
+    prefix dhc6-rly;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 7341:
+      DHCPv4-over-DHCPv6 (DHCPv4oDHCPv6).";
+  reference "RFC 7341: DHCPv4-over-DHCPv6 (DHCPv4oDHCPv6)";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 7341: DHCPv4-over-DHCPv6 (DHCPv4oDHCPv6)";
+  }
+
+  grouping dhcpv4-msg-option-group {
+    description "OPTION_DHCPV4_MSG (87) DHCPv4 Message Option.";
+    reference "RFC 7341: DHCPv4-over-DHCPv6 (DHCPv4oDHCPv6)";
+    container dhcpv4-msg-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_DHCPV4_MSG (87) DHCPv4 Message Option
+        option.";
+      leaf dhcpv4-message {
+        type binary;
+        description "Encapsulated DHCPv4 message.";
+      }
+    }
+  }
+
+  grouping dhcp4-o-dhcp6-server-option-group {
+    description "OPTION_DHCP4_O_DHCP6_SERVER (88) DHCPv4-over-DHCPv6
+      Server Option.";
+    reference "RFC 7341: DHCPv4-over-DHCPv6 (DHCPv4oDHCPv6)";
+    container dhcp4-o-dhcp6-server-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_DHCP4_O_DHCP6_SERVER (88) DHCPv4-over-DHCPv6
+        Server Option option.";
+      leaf-list server-address {
+        type inet:ipv6-address;
+        description "DHCPv4-over-DHCPv6 server address.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-rly:dhcpv6-relay/"
+      + "dhc6-rly:relay-if/"
+      + "dhc6-rly:relay-options" {
+    description "Add RFC 7341 options.";
+    uses dhcpv4-msg-option-group;
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 7341 options.";
+    uses dhcp4-o-dhcp6-server-option-group;
+  }
+
+}

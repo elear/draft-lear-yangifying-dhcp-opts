@@ -1,0 +1,63 @@
+module ietf-dhcpv6-opt-vss {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-vss";
+  prefix vss;
+
+  import ietf-dhcpv6-relay {
+    prefix dhc6-rly;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 6607: Virtual
+      Subnet Selection Options for DHCPv4 and DHCPv6.";
+  reference "RFC 6607: Virtual Subnet Selection Options for DHCPv4 and
+    DHCPv6";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 6607: Virtual Subnet Selection Options for DHCPv4
+      and DHCPv6";
+  }
+
+  grouping vss-option-group {
+    description "OPTION_VSS (68) Virtual Subnet Selection Option.";
+    reference "RFC 6607: Virtual Subnet Selection Options for DHCPv4
+      and DHCPv6";
+    container vss-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_VSS (68) Virtual Subnet Selection Option
+        option.";
+      leaf vss-type {
+        type uint8;
+        description "Virtual subnet selection type.";
+      }
+      leaf enterprise-number {
+        type uint32;
+        description "Enterprise number, for type Instance.";
+      }
+      leaf vss-value {
+        type binary;
+        description "Virtual subnet selection value.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-rly:dhcpv6-relay/"
+      + "dhc6-rly:relay-if/"
+      + "dhc6-rly:relay-options" {
+    description "Add RFC 6607 options.";
+    uses vss-option-group;
+  }
+
+}

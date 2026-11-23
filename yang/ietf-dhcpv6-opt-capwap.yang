@@ -1,0 +1,62 @@
+module ietf-dhcpv6-opt-capwap {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-capwap";
+  prefix capwap;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 5417: Control
+      And Provisioning of Wireless Access Points (CAPWAP) Access
+      Controller DHCP Option.";
+  reference "RFC 5417: Control And Provisioning of Wireless Access
+    Points (CAPWAP) Access Controller DHCP Option";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 5417: Control And Provisioning of Wireless Access
+      Points (CAPWAP) Access Controller DHCP Option";
+  }
+
+  grouping capwap-ac-v6-option-group {
+    description "OPTION_CAPWAP_AC_V6 (52) CAPWAP Access Controller
+      IPv6 Address Option.";
+    reference "RFC 5417: Control And Provisioning of Wireless Access
+      Points (CAPWAP) Access Controller DHCP Option";
+    container capwap-ac-v6-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_CAPWAP_AC_V6 (52) CAPWAP Access Controller
+        IPv6 Address Option option.";
+      leaf-list capwap-ac-address {
+        type inet:ipv6-address;
+        description "CAPWAP AC IPv6 address.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 5417 options.";
+    uses capwap-ac-v6-option-group;
+  }
+
+}

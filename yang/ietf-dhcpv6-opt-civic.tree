@@ -1,0 +1,7 @@
+module: ietf-dhcpv6-opt-civic
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw geoconf-civic-option!
+       +--rw what? uint8
+       +--rw country-code? string
+       +--rw civic-address-element* binary

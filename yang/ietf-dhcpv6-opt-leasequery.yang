@@ -1,0 +1,143 @@
+module ietf-dhcpv6-opt-leasequery {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-leasequery";
+  prefix leaseque;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-client {
+    prefix dhc6-clnt;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 5007: DHCPv6
+      Leasequery.";
+  reference "RFC 5007: DHCPv6 Leasequery";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 5007: DHCPv6 Leasequery";
+  }
+
+  grouping lq-query-option-group {
+    description "OPTION_LQ_QUERY (44) Leasequery Query Option.";
+    reference "RFC 5007: DHCPv6 Leasequery";
+    container lq-query-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_LQ_QUERY (44) Leasequery Query Option
+        option.";
+      leaf query-type {
+        type uint8;
+        description "Leasequery query type.";
+      }
+      leaf link-address {
+        type inet:ipv6-address;
+        description "Link address, when applicable.";
+      }
+      leaf query-address {
+        type inet:ipv6-address;
+        description "Queried IPv6 address, when applicable.";
+      }
+      leaf client-id {
+        type binary;
+        description "Queried client DUID, when applicable.";
+      }
+    }
+  }
+
+  grouping client-data-option-group {
+    description "OPTION_CLIENT_DATA (45) Client Data Option.";
+    reference "RFC 5007: DHCPv6 Leasequery";
+    container client-data-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_CLIENT_DATA (45) Client Data Option option.";
+      leaf client-id {
+        type binary;
+        description "Client DUID.";
+      }
+      leaf clt-time {
+        type uint64;
+        description "Client last-transaction time.";
+      }
+      leaf ia-data {
+        type binary;
+        description "Identity-association data.";
+      }
+    }
+  }
+
+  grouping clt-time-option-group {
+    description "OPTION_CLT_TIME (46) Client Last-Transaction Time
+      Option.";
+    reference "RFC 5007: DHCPv6 Leasequery";
+    container clt-time-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_CLT_TIME (46) Client Last-Transaction Time
+        Option option.";
+      leaf clt-time {
+        type uint64;
+        description "Client last-transaction time.";
+      }
+    }
+  }
+
+  grouping lq-relay-data-option-group {
+    description "OPTION_LQ_RELAY_DATA (47) Leasequery Relay Data
+      Option.";
+    reference "RFC 5007: DHCPv6 Leasequery";
+    container lq-relay-data-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_LQ_RELAY_DATA (47) Leasequery Relay Data
+        Option option.";
+      leaf peer-address {
+        type inet:ipv6-address;
+        description "Peer address.";
+      }
+      leaf relay-message {
+        type binary;
+        description "Relay Message option data.";
+      }
+    }
+  }
+
+  grouping lq-client-link-option-group {
+    description "OPTION_LQ_CLIENT_LINK (48) Leasequery Client Link
+      Option.";
+    reference "RFC 5007: DHCPv6 Leasequery";
+    container lq-client-link-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_LQ_CLIENT_LINK (48) Leasequery Client Link
+        Option option.";
+      leaf-list client-link-address {
+        type inet:ipv6-address;
+        description "Client link address.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-clnt:dhcpv6-client/"
+      + "dhc6-clnt:client-if/"
+      + "dhc6-clnt:client-configured-options" {
+    description "Add RFC 5007 options.";
+    uses lq-query-option-group;
+    uses client-data-option-group;
+    uses clt-time-option-group;
+    uses lq-relay-data-option-group;
+    uses lq-client-link-option-group;
+  }
+
+}

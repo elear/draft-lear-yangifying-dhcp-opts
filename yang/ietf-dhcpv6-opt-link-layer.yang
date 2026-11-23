@@ -1,0 +1,84 @@
+module ietf-dhcpv6-opt-link-layer {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-link-layer";
+  prefix link-lay;
+
+  import ietf-dhcpv6-client {
+    prefix dhc6-clnt;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 8947: Link-Layer
+      Address Assignment Mechanism for DHCPv6.";
+  reference "RFC 8947: Link-Layer Address Assignment Mechanism for
+    DHCPv6";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 8947: Link-Layer Address Assignment Mechanism for
+      DHCPv6";
+  }
+
+  grouping ia-ll-option-group {
+    description "OPTION_IA_LL (138) Identity Association for
+      Link-Layer Address Option.";
+    reference "RFC 8947: Link-Layer Address Assignment Mechanism for
+      DHCPv6";
+    container ia-ll-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_IA_LL (138) Identity Association for
+        Link-Layer Address Option option.";
+      leaf ia-id {
+        type uint32;
+        description "Identity association identifier.";
+      }
+      leaf hardware-type {
+        type uint16;
+        description "Hardware type.";
+      }
+      leaf link-layer-address {
+        type binary;
+        description "Link-layer address.";
+      }
+    }
+  }
+
+  grouping lladdr-option-group {
+    description "OPTION_LLADDR (139) Link-Layer Address Option.";
+    reference "RFC 8947: Link-Layer Address Assignment Mechanism for
+      DHCPv6";
+    container lladdr-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_LLADDR (139) Link-Layer Address Option
+        option.";
+      leaf hardware-type {
+        type uint16;
+        description "Hardware type.";
+      }
+      leaf link-layer-address {
+        type binary;
+        description "Link-layer address.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-clnt:dhcpv6-client/"
+      + "dhc6-clnt:client-if/"
+      + "dhc6-clnt:client-configured-options" {
+    description "Add RFC 8947 options.";
+    uses ia-ll-option-group;
+    uses lladdr-option-group;
+  }
+
+}

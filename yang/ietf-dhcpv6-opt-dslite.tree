@@ -1,0 +1,5 @@
+module: ietf-dhcpv6-opt-dslite
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw aftr-name-option!
+       +--rw aftr-name? inet:domain-name

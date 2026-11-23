@@ -1,0 +1,67 @@
+module ietf-dhcpv6-opt-ntp {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-ntp";
+  prefix ntp;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 5908: Network
+      Time Protocol (NTP) Server Option for DHCPv6.";
+  reference "RFC 5908: Network Time Protocol (NTP) Server Option for
+    DHCPv6";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 5908: Network Time Protocol (NTP) Server Option for
+      DHCPv6";
+  }
+
+  grouping ntp-server-option-group {
+    description "OPTION_NTP_SERVER (56) NTP Server Option.";
+    reference "RFC 5908: Network Time Protocol (NTP) Server Option for
+      DHCPv6";
+    container ntp-server-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_NTP_SERVER (56) NTP Server Option option.";
+      leaf-list server-address {
+        type inet:ipv6-address;
+        description "NTP server address.";
+      }
+      leaf-list multicast-address {
+        type inet:ipv6-address;
+        description "NTP multicast address.";
+      }
+      leaf-list server-fqdn {
+        type inet:domain-name;
+        description "NTP server FQDN.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 5908 options.";
+    uses ntp-server-option-group;
+  }
+
+}

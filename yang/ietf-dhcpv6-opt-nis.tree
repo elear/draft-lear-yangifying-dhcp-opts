@@ -1,0 +1,11 @@
+module: ietf-dhcpv6-opt-nis
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw nis-servers-option!
+       +--rw nis-server* inet:ipv6-address
+    +--rw nisp-servers-option!
+       +--rw nisp-server* inet:ipv6-address
+    +--rw nis-domain-name-option!
+       +--rw nis-domain-name? inet:domain-name
+    +--rw nisp-domain-name-option!
+       +--rw nisp-domain-name? inet:domain-name

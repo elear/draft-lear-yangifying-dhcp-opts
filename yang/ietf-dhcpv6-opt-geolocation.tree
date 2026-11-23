@@ -1,0 +1,11 @@
+module: ietf-dhcpv6-opt-geolocation
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw geolocation-option!
+       +--rw latitude? uint32
+       +--rw latitude-resolution? uint8
+       +--rw longitude? uint32
+       +--rw longitude-resolution? uint8
+       +--rw altitude? int32
+       +--rw altitude-type? uint8
+       +--rw altitude-resolution? uint8

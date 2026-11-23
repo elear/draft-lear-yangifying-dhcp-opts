@@ -1,0 +1,5 @@
+module: ietf-dhcpv6-opt-relay-supplied
+  augment /dhc6-rly:dhcpv6-relay/dhc6-rly:relay-if/
+         dhc6-rly:relay-options:
+    +--rw rsoo-option!
+       +--rw option-data* binary

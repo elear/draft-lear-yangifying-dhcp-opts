@@ -1,0 +1,142 @@
+module ietf-dhcpv6-opt-ani {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-ani";
+  prefix ani;
+
+  import ietf-dhcpv6-relay {
+    prefix dhc6-rly;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 7839:
+      Access-Network-Identifier (ANI) Option for DHCP.";
+  reference "RFC 7839: Access-Network-Identifier (ANI) Option for DHCP";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 7839: Access-Network-Identifier (ANI) Option for
+      DHCP";
+  }
+
+  grouping ani-att-option-group {
+    description "OPTION_ANI_ATT (105) Access Network Type and
+      Technology Option.";
+    reference "RFC 7839: Access-Network-Identifier (ANI) Option for
+      DHCP";
+    container ani-att-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_ANI_ATT (105) Access Network Type and
+        Technology Option option.";
+      leaf access-network-type {
+        type uint8;
+        description "Access network type.";
+      }
+      leaf access-network-technology {
+        type uint8;
+        description "Access network technology.";
+      }
+    }
+  }
+
+  grouping ani-network-name-option-group {
+    description "OPTION_ANI_NETWORK_NAME (106) Access Network Name
+      Option.";
+    reference "RFC 7839: Access-Network-Identifier (ANI) Option for
+      DHCP";
+    container ani-network-name-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_ANI_NETWORK_NAME (106) Access Network Name
+        Option option.";
+      leaf network-name {
+        type string;
+        description "Access network name.";
+      }
+    }
+  }
+
+  grouping ani-ap-name-option-group {
+    description "OPTION_ANI_AP_NAME (107) Access Point Name Option.";
+    reference "RFC 7839: Access-Network-Identifier (ANI) Option for
+      DHCP";
+    container ani-ap-name-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_ANI_AP_NAME (107) Access Point Name Option
+        option.";
+      leaf access-point-name {
+        type string;
+        description "Access point name.";
+      }
+    }
+  }
+
+  grouping ani-ap-bssid-option-group {
+    description "OPTION_ANI_AP_BSSID (108) Access Point BSSID Option.";
+    reference "RFC 7839: Access-Network-Identifier (ANI) Option for
+      DHCP";
+    container ani-ap-bssid-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_ANI_AP_BSSID (108) Access Point BSSID Option
+        option.";
+      leaf access-point-bssid {
+        type binary;
+        description "Access point BSSID.";
+      }
+    }
+  }
+
+  grouping ani-operator-id-option-group {
+    description "OPTION_ANI_OPERATOR_ID (109) Operator Identifier
+      Option.";
+    reference "RFC 7839: Access-Network-Identifier (ANI) Option for
+      DHCP";
+    container ani-operator-id-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_ANI_OPERATOR_ID (109) Operator Identifier
+        Option option.";
+      leaf operator-identifier {
+        type string;
+        description "Operator identifier.";
+      }
+    }
+  }
+
+  grouping ani-operator-realm-option-group {
+    description "OPTION_ANI_OPERATOR_REALM (110) Operator Realm
+      Option.";
+    reference "RFC 7839: Access-Network-Identifier (ANI) Option for
+      DHCP";
+    container ani-operator-realm-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_ANI_OPERATOR_REALM (110) Operator Realm
+        Option option.";
+      leaf operator-realm {
+        type string;
+        description "Operator realm.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-rly:dhcpv6-relay/"
+      + "dhc6-rly:relay-if/"
+      + "dhc6-rly:relay-options" {
+    description "Add RFC 7839 options.";
+    uses ani-att-option-group;
+    uses ani-network-name-option-group;
+    uses ani-ap-name-option-group;
+    uses ani-ap-bssid-option-group;
+    uses ani-operator-id-option-group;
+    uses ani-operator-realm-option-group;
+  }
+
+}

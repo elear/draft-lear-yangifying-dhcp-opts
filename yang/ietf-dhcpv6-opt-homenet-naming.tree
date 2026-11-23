@@ -1,0 +1,10 @@
+module: ietf-dhcpv6-opt-homenet-naming
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw registered-domain-option!
+       +--rw domain-name? inet:domain-name
+       +--rw transport-protocol? uint16
+    +--rw forward-dist-manager-option!
+       +--rw manager-domain-name* inet:domain-name
+    +--rw reverse-dist-manager-option!
+       +--rw manager-domain-name* inet:domain-name

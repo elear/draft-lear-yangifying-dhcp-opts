@@ -1,0 +1,49 @@
+module ietf-dhcpv6-opt-address-registration {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-address-registration";
+  prefix address;
+
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 9686: IPv6
+      Address Registration Option for DHCPv6.";
+  reference "RFC 9686: IPv6 Address Registration Option for DHCPv6";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 9686: IPv6 Address Registration Option for DHCPv6";
+  }
+
+  grouping addr-reg-enable-option-group {
+    description "OPTION_ADDR_REG_ENABLE (148) Address Registration
+      Enable Option.";
+    reference "RFC 9686: IPv6 Address Registration Option for DHCPv6";
+    container addr-reg-enable-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_ADDR_REG_ENABLE (148) Address Registration
+        Enable Option option.";
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 9686 options.";
+    uses addr-reg-enable-option-group;
+  }
+
+}

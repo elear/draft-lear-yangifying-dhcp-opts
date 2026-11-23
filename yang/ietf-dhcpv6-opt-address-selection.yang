@@ -1,0 +1,72 @@
+module ietf-dhcpv6-opt-address-selection {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-address-selection";
+  prefix address;
+
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 7078:
+      Distributing Address Selection Policy using DHCPv6.";
+  reference "RFC 7078: Distributing Address Selection Policy using
+    DHCPv6";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 7078: Distributing Address Selection Policy using
+      DHCPv6";
+  }
+
+  grouping addrsel-option-group {
+    description "OPTION_ADDRSEL (84) Address Selection Option.";
+    reference "RFC 7078: Distributing Address Selection Policy using
+      DHCPv6";
+    container addrsel-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_ADDRSEL (84) Address Selection Option
+        option.";
+      leaf address-selection-data {
+        type binary;
+        description "Address selection policy data.";
+      }
+    }
+  }
+
+  grouping addrsel-table-option-group {
+    description "OPTION_ADDRSEL_TABLE (85) Address Selection Table
+      Option.";
+    reference "RFC 7078: Distributing Address Selection Policy using
+      DHCPv6";
+    container addrsel-table-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_ADDRSEL_TABLE (85) Address Selection Table
+        Option option.";
+      leaf-list address-selection-table-entry {
+        type binary;
+        description "Address selection table entry.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 7078 options.";
+    uses addrsel-option-group;
+    uses addrsel-table-option-group;
+  }
+
+}

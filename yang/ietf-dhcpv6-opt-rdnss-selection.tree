@@ -1,0 +1,6 @@
+module: ietf-dhcpv6-opt-rdnss-selection
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw rdnss-selection-option!
+       +--rw prefix* inet:ipv6-prefix
+       +--rw dns-server* inet:ipv6-address

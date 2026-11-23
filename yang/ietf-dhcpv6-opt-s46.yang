@@ -1,0 +1,182 @@
+module ietf-dhcpv6-opt-s46 {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-s46";
+  prefix s46;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 7598: Mapping of
+      Address and Port with Encapsulation (MAP-E) and Translation
+      (MAP-T).";
+  reference "RFC 7598: Mapping of Address and Port with Encapsulation
+    (MAP-E) and Translation (MAP-T)";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 7598: Mapping of Address and Port with
+      Encapsulation (MAP-E) and Translation (MAP-T)";
+  }
+
+  grouping s46-rule-option-group {
+    description "OPTION_S46_RULE (89) S46 Rule Option.";
+    reference "RFC 7598: Mapping of Address and Port with
+      Encapsulation (MAP-E) and Translation (MAP-T)";
+    container s46-rule-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_S46_RULE (89) S46 Rule Option option.";
+      leaf rule-data {
+        type binary;
+        description "S46 rule fields.";
+      }
+    }
+  }
+
+  grouping s46-br-option-group {
+    description "OPTION_S46_BR (90) S46 Border Relay Option.";
+    reference "RFC 7598: Mapping of Address and Port with
+      Encapsulation (MAP-E) and Translation (MAP-T)";
+    container s46-br-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_S46_BR (90) S46 Border Relay Option option.";
+      leaf-list border-relay-address {
+        type inet:ipv6-address;
+        description "Border relay IPv6 address.";
+      }
+    }
+  }
+
+  grouping s46-dmr-option-group {
+    description "OPTION_S46_DMR (91) S46 Default Mapping Rule Option.";
+    reference "RFC 7598: Mapping of Address and Port with
+      Encapsulation (MAP-E) and Translation (MAP-T)";
+    container s46-dmr-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_S46_DMR (91) S46 Default Mapping Rule Option
+        option.";
+      leaf default-mapping-prefix {
+        type inet:ipv6-prefix;
+        description "Default mapping rule prefix.";
+      }
+    }
+  }
+
+  grouping s46-v4v6bind-option-group {
+    description "OPTION_S46_V4V6BIND (92) S46 IPv4/IPv6 Binding
+      Option.";
+    reference "RFC 7598: Mapping of Address and Port with
+      Encapsulation (MAP-E) and Translation (MAP-T)";
+    container s46-v4v6bind-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_S46_V4V6BIND (92) S46 IPv4/IPv6 Binding
+        Option option.";
+      leaf binding-data {
+        type binary;
+        description "IPv4/IPv6 binding data.";
+      }
+    }
+  }
+
+  grouping s46-portparams-option-group {
+    description "OPTION_S46_PORTPARAMS (93) S46 Port Parameters
+      Option.";
+    reference "RFC 7598: Mapping of Address and Port with
+      Encapsulation (MAP-E) and Translation (MAP-T)";
+    container s46-portparams-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_S46_PORTPARAMS (93) S46 Port Parameters
+        Option option.";
+      leaf offset {
+        type uint8;
+        description "Port set offset.";
+      }
+      leaf psid-length {
+        type uint8;
+        description "Port set identifier length.";
+      }
+      leaf psid {
+        type uint16;
+        description "Port set identifier.";
+      }
+    }
+  }
+
+  grouping s46-cont-mape-option-group {
+    description "OPTION_S46_CONT_MAPE (94) S46 MAP-E Container Option.";
+    reference "RFC 7598: Mapping of Address and Port with
+      Encapsulation (MAP-E) and Translation (MAP-T)";
+    container s46-cont-mape-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_S46_CONT_MAPE (94) S46 MAP-E Container
+        Option option.";
+      leaf-list container-data {
+        type binary;
+        description "Encapsulated MAP-E options.";
+      }
+    }
+  }
+
+  grouping s46-cont-mapt-option-group {
+    description "OPTION_S46_CONT_MAPT (95) S46 MAP-T Container Option.";
+    reference "RFC 7598: Mapping of Address and Port with
+      Encapsulation (MAP-E) and Translation (MAP-T)";
+    container s46-cont-mapt-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_S46_CONT_MAPT (95) S46 MAP-T Container
+        Option option.";
+      leaf-list container-data {
+        type binary;
+        description "Encapsulated MAP-T options.";
+      }
+    }
+  }
+
+  grouping s46-cont-lw-option-group {
+    description "OPTION_S46_CONT_LW (96) S46 Lightweight 4over6
+      Container Option.";
+    reference "RFC 7598: Mapping of Address and Port with
+      Encapsulation (MAP-E) and Translation (MAP-T)";
+    container s46-cont-lw-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_S46_CONT_LW (96) S46 Lightweight 4over6
+        Container Option option.";
+      leaf-list container-data {
+        type binary;
+        description "Encapsulated Lightweight 4over6 options.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 7598 options.";
+    uses s46-rule-option-group;
+    uses s46-br-option-group;
+    uses s46-dmr-option-group;
+    uses s46-v4v6bind-option-group;
+    uses s46-portparams-option-group;
+    uses s46-cont-mape-option-group;
+    uses s46-cont-mapt-option-group;
+    uses s46-cont-lw-option-group;
+  }
+
+}

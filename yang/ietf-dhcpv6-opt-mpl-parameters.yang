@@ -1,0 +1,55 @@
+module ietf-dhcpv6-opt-mpl-parameters {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-mpl-parameters";
+  prefix mpl-para;
+
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 7774: Multicast
+      Protocol for Low-Power and Lossy Networks (MPL) Parameters.";
+  reference "RFC 7774: Multicast Protocol for Low-Power and Lossy
+    Networks (MPL) Parameters";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 7774: Multicast Protocol for Low-Power and Lossy
+      Networks (MPL) Parameters";
+  }
+
+  grouping mpl-parameters-option-group {
+    description "OPTION_MPL_PARAMETERS (104) MPL Parameters Option.";
+    reference "RFC 7774: Multicast Protocol for Low-Power and Lossy
+      Networks (MPL) Parameters";
+    container mpl-parameters-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_MPL_PARAMETERS (104) MPL Parameters Option
+        option.";
+      leaf mpl-parameter-data {
+        type binary;
+        description "MPL parameter fields.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 7774 options.";
+    uses mpl-parameters-option-group;
+  }
+
+}

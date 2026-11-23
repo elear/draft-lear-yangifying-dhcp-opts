@@ -1,0 +1,375 @@
+module ietf-dhcpv6-opt-failover {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-failover";
+  prefix failover;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 8156: DHCPv6
+      Failover Protocol.";
+  reference "RFC 8156: DHCPv6 Failover Protocol";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 8156: DHCPv6 Failover Protocol";
+  }
+
+  grouping f-binding-status-option-group {
+    description "OPTION_F_BINDING_STATUS (114) Failover Binding Status
+      Option.";
+    reference "RFC 8156: DHCPv6 Failover Protocol";
+    container f-binding-status-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_F_BINDING_STATUS (114) Failover Binding
+        Status Option option.";
+      leaf binding-status {
+        type uint8;
+        description "Binding status.";
+      }
+    }
+  }
+
+  grouping f-connect-flags-option-group {
+    description "OPTION_F_CONNECT_FLAGS (115) Failover Connect Flags
+      Option.";
+    reference "RFC 8156: DHCPv6 Failover Protocol";
+    container f-connect-flags-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_F_CONNECT_FLAGS (115) Failover Connect Flags
+        Option option.";
+      leaf connect-flags {
+        type uint8;
+        description "Connection flags.";
+      }
+    }
+  }
+
+  grouping f-dns-removal-info-option-group {
+    description "OPTION_F_DNS_REMOVAL_INFO (116) Failover DNS Removal
+      Information Option.";
+    reference "RFC 8156: DHCPv6 Failover Protocol";
+    container f-dns-removal-info-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_F_DNS_REMOVAL_INFO (116) Failover DNS
+        Removal Information Option option.";
+      leaf dns-removal-information {
+        type binary;
+        description "DNS removal information.";
+      }
+    }
+  }
+
+  grouping f-dns-host-name-option-group {
+    description "OPTION_F_DNS_HOST_NAME (117) Failover DNS Host Name
+      Option.";
+    reference "RFC 8156: DHCPv6 Failover Protocol";
+    container f-dns-host-name-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_F_DNS_HOST_NAME (117) Failover DNS Host Name
+        Option option.";
+      leaf dns-host-name {
+        type inet:domain-name;
+        description "DNS host name.";
+      }
+    }
+  }
+
+  grouping f-dns-zone-name-option-group {
+    description "OPTION_F_DNS_ZONE_NAME (118) Failover DNS Zone Name
+      Option.";
+    reference "RFC 8156: DHCPv6 Failover Protocol";
+    container f-dns-zone-name-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_F_DNS_ZONE_NAME (118) Failover DNS Zone Name
+        Option option.";
+      leaf dns-zone-name {
+        type inet:domain-name;
+        description "DNS zone name.";
+      }
+    }
+  }
+
+  grouping f-dns-flags-option-group {
+    description "OPTION_F_DNS_FLAGS (119) Failover DNS Flags Option.";
+    reference "RFC 8156: DHCPv6 Failover Protocol";
+    container f-dns-flags-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_F_DNS_FLAGS (119) Failover DNS Flags Option
+        option.";
+      leaf dns-flags {
+        type uint8;
+        description "DNS flags.";
+      }
+    }
+  }
+
+  grouping f-expiration-time-option-group {
+    description "OPTION_F_EXPIRATION_TIME (120) Failover Expiration
+      Time Option.";
+    reference "RFC 8156: DHCPv6 Failover Protocol";
+    container f-expiration-time-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_F_EXPIRATION_TIME (120) Failover Expiration
+        Time Option option.";
+      leaf expiration-time {
+        type uint32;
+        description "Expiration time.";
+      }
+    }
+  }
+
+  grouping f-max-unacked-bndupd-option-group {
+    description "OPTION_F_MAX_UNACKED_BNDUPD (121) Failover Max
+      Unacked BNDUPD Option.";
+    reference "RFC 8156: DHCPv6 Failover Protocol";
+    container f-max-unacked-bndupd-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_F_MAX_UNACKED_BNDUPD (121) Failover Max
+        Unacked BNDUPD Option option.";
+      leaf max-unacked-binding-updates {
+        type uint32;
+        description "Maximum unacknowledged binding updates.";
+      }
+    }
+  }
+
+  grouping f-mclt-option-group {
+    description "OPTION_F_MCLT (122) Failover MCLT Option.";
+    reference "RFC 8156: DHCPv6 Failover Protocol";
+    container f-mclt-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_F_MCLT (122) Failover MCLT Option option.";
+      leaf mclt {
+        type uint32;
+        description "Maximum client lead time.";
+      }
+    }
+  }
+
+  grouping f-partner-lifetime-option-group {
+    description "OPTION_F_PARTNER_LIFETIME (123) Failover Partner
+      Lifetime Option.";
+    reference "RFC 8156: DHCPv6 Failover Protocol";
+    container f-partner-lifetime-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_F_PARTNER_LIFETIME (123) Failover Partner
+        Lifetime Option option.";
+      leaf partner-lifetime {
+        type uint32;
+        description "Partner lifetime.";
+      }
+    }
+  }
+
+  grouping f-partner-lifetime-sent-option-group {
+    description "OPTION_F_PARTNER_LIFETIME_SENT (124) Failover Partner
+      Lifetime Sent Option.";
+    reference "RFC 8156: DHCPv6 Failover Protocol";
+    container f-partner-lifetime-sent-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_F_PARTNER_LIFETIME_SENT (124) Failover
+        Partner Lifetime Sent Option option.";
+      leaf partner-lifetime-sent {
+        type uint32;
+        description "Partner lifetime sent.";
+      }
+    }
+  }
+
+  grouping f-partner-down-time-option-group {
+    description "OPTION_F_PARTNER_DOWN_TIME (125) Failover Partner
+      Down Time Option.";
+    reference "RFC 8156: DHCPv6 Failover Protocol";
+    container f-partner-down-time-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_F_PARTNER_DOWN_TIME (125) Failover Partner
+        Down Time Option option.";
+      leaf partner-down-time {
+        type uint32;
+        description "Partner down time.";
+      }
+    }
+  }
+
+  grouping f-partner-raw-clt-time-option-group {
+    description "OPTION_F_PARTNER_RAW_CLT_TIME (126) Failover Partner
+      Raw CLT Time Option.";
+    reference "RFC 8156: DHCPv6 Failover Protocol";
+    container f-partner-raw-clt-time-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_F_PARTNER_RAW_CLT_TIME (126) Failover
+        Partner Raw CLT Time Option option.";
+      leaf partner-raw-clt-time {
+        type uint32;
+        description "Partner raw client last-transaction time.";
+      }
+    }
+  }
+
+  grouping f-protocol-version-option-group {
+    description "OPTION_F_PROTOCOL_VERSION (127) Failover Protocol
+      Version Option.";
+    reference "RFC 8156: DHCPv6 Failover Protocol";
+    container f-protocol-version-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_F_PROTOCOL_VERSION (127) Failover Protocol
+        Version Option option.";
+      leaf protocol-version {
+        type uint32;
+        description "Failover protocol version.";
+      }
+    }
+  }
+
+  grouping f-keepalive-time-option-group {
+    description "OPTION_F_KEEPALIVE_TIME (128) Failover Keepalive Time
+      Option.";
+    reference "RFC 8156: DHCPv6 Failover Protocol";
+    container f-keepalive-time-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_F_KEEPALIVE_TIME (128) Failover Keepalive
+        Time Option option.";
+      leaf keepalive-time {
+        type uint32;
+        description "Keepalive interval.";
+      }
+    }
+  }
+
+  grouping f-reconfigure-data-option-group {
+    description "OPTION_F_RECONFIGURE_DATA (129) Failover Reconfigure
+      Data Option.";
+    reference "RFC 8156: DHCPv6 Failover Protocol";
+    container f-reconfigure-data-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_F_RECONFIGURE_DATA (129) Failover
+        Reconfigure Data Option option.";
+      leaf reconfigure-data {
+        type binary;
+        description "Reconfigure data.";
+      }
+    }
+  }
+
+  grouping f-relationship-name-option-group {
+    description "OPTION_F_RELATIONSHIP_NAME (130) Failover
+      Relationship Name Option.";
+    reference "RFC 8156: DHCPv6 Failover Protocol";
+    container f-relationship-name-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_F_RELATIONSHIP_NAME (130) Failover
+        Relationship Name Option option.";
+      leaf relationship-name {
+        type string;
+        description "Failover relationship name.";
+      }
+    }
+  }
+
+  grouping f-server-flags-option-group {
+    description "OPTION_F_SERVER_FLAGS (131) Failover Server Flags
+      Option.";
+    reference "RFC 8156: DHCPv6 Failover Protocol";
+    container f-server-flags-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_F_SERVER_FLAGS (131) Failover Server Flags
+        Option option.";
+      leaf server-flags {
+        type uint8;
+        description "Server flags.";
+      }
+    }
+  }
+
+  grouping f-server-state-option-group {
+    description "OPTION_F_SERVER_STATE (132) Failover Server State
+      Option.";
+    reference "RFC 8156: DHCPv6 Failover Protocol";
+    container f-server-state-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_F_SERVER_STATE (132) Failover Server State
+        Option option.";
+      leaf server-state {
+        type uint8;
+        description "Server state.";
+      }
+    }
+  }
+
+  grouping f-start-time-of-state-option-group {
+    description "OPTION_F_START_TIME_OF_STATE (133) Failover Start
+      Time of State Option.";
+    reference "RFC 8156: DHCPv6 Failover Protocol";
+    container f-start-time-of-state-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_F_START_TIME_OF_STATE (133) Failover Start
+        Time of State Option option.";
+      leaf start-time-of-state {
+        type uint32;
+        description "Start time of state.";
+      }
+    }
+  }
+
+  grouping f-state-expiration-time-option-group {
+    description "OPTION_F_STATE_EXPIRATION_TIME (134) Failover State
+      Expiration Time Option.";
+    reference "RFC 8156: DHCPv6 Failover Protocol";
+    container f-state-expiration-time-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_F_STATE_EXPIRATION_TIME (134) Failover State
+        Expiration Time Option option.";
+      leaf state-expiration-time {
+        type uint32;
+        description "State expiration time.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 8156 options.";
+    uses f-binding-status-option-group;
+    uses f-connect-flags-option-group;
+    uses f-dns-removal-info-option-group;
+    uses f-dns-host-name-option-group;
+    uses f-dns-zone-name-option-group;
+    uses f-dns-flags-option-group;
+    uses f-expiration-time-option-group;
+    uses f-max-unacked-bndupd-option-group;
+    uses f-mclt-option-group;
+    uses f-partner-lifetime-option-group;
+    uses f-partner-lifetime-sent-option-group;
+    uses f-partner-down-time-option-group;
+    uses f-partner-raw-clt-time-option-group;
+    uses f-protocol-version-option-group;
+    uses f-keepalive-time-option-group;
+    uses f-reconfigure-data-option-group;
+    uses f-relationship-name-option-group;
+    uses f-server-flags-option-group;
+    uses f-server-state-option-group;
+    uses f-start-time-of-state-option-group;
+    uses f-state-expiration-time-option-group;
+  }
+
+}

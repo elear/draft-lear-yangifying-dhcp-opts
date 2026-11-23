@@ -1,0 +1,6 @@
+module: ietf-dhcpv6-opt-client-link-layer
+  augment /dhc6-rly:dhcpv6-relay/dhc6-rly:relay-if/
+         dhc6-rly:relay-options:
+    +--rw client-linklayer-addr-option!
+       +--rw hardware-type? uint16
+       +--rw link-layer-address? binary

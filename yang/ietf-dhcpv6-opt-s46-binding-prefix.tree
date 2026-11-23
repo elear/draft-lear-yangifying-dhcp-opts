@@ -1,0 +1,5 @@
+module: ietf-dhcpv6-opt-s46-binding-prefix
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw s46-bind-ipv6-prefix-option!
+       +--rw binding-ipv6-prefix? inet:ipv6-prefix

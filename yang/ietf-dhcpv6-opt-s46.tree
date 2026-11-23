@@ -1,0 +1,21 @@
+module: ietf-dhcpv6-opt-s46
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw s46-rule-option!
+       +--rw rule-data? binary
+    +--rw s46-br-option!
+       +--rw border-relay-address* inet:ipv6-address
+    +--rw s46-dmr-option!
+       +--rw default-mapping-prefix? inet:ipv6-prefix
+    +--rw s46-v4v6bind-option!
+       +--rw binding-data? binary
+    +--rw s46-portparams-option!
+       +--rw offset? uint8
+       +--rw psid-length? uint8
+       +--rw psid? uint16
+    +--rw s46-cont-mape-option!
+       +--rw container-data* binary
+    +--rw s46-cont-mapt-option!
+       +--rw container-data* binary
+    +--rw s46-cont-lw-option!
+       +--rw container-data* binary

@@ -1,0 +1,18 @@
+module: ietf-dhcpv6-opt-mip6
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw mip6-hnidf-option!
+       +--rw home-network-id? inet:domain-name
+    +--rw mip6-vdinf-option!
+       +--rw enterprise-number? uint32
+       +--rw vendor-data? binary
+    +--rw mip6-idinf-option!
+       +--rw identifier? binary
+    +--rw mip6-udinf-option!
+       +--rw user-data? binary
+    +--rw mip6-hnp-option!
+       +--rw home-network-prefix* inet:ipv6-prefix
+    +--rw mip6-haa-option!
+       +--rw home-agent-address* inet:ipv6-address
+    +--rw mip6-haf-option!
+       +--rw home-agent-fqdn* inet:domain-name

@@ -1,0 +1,5 @@
+module: ietf-dhcpv6-opt-mud
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw mud-url-v6-option!
+       +--rw mud-url? inet:uri

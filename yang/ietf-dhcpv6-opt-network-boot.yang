@@ -1,0 +1,110 @@
+module ietf-dhcpv6-opt-network-boot {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-network-boot";
+  prefix network;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 5970: DHCPv6
+      Options for Network Boot.";
+  reference "RFC 5970: DHCPv6 Options for Network Boot";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 5970: DHCPv6 Options for Network Boot";
+  }
+
+  grouping bootfile-url-option-group {
+    description "OPT_BOOTFILE_URL (59) Boot File URL Option.";
+    reference "RFC 5970: DHCPv6 Options for Network Boot";
+    container bootfile-url-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPT_BOOTFILE_URL (59) Boot File URL Option option.";
+      leaf bootfile-url {
+        type inet:uri;
+        description "Boot file URL.";
+      }
+    }
+  }
+
+  grouping bootfile-param-option-group {
+    description "OPT_BOOTFILE_PARAM (60) Boot File Parameters Option.";
+    reference "RFC 5970: DHCPv6 Options for Network Boot";
+    container bootfile-param-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPT_BOOTFILE_PARAM (60) Boot File Parameters Option
+        option.";
+      leaf-list bootfile-parameter {
+        type binary;
+        description "Boot file parameter data.";
+      }
+    }
+  }
+
+  grouping client-arch-type-option-group {
+    description "OPTION_CLIENT_ARCH_TYPE (61) Client System
+      Architecture Type Option.";
+    reference "RFC 5970: DHCPv6 Options for Network Boot";
+    container client-arch-type-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_CLIENT_ARCH_TYPE (61) Client System
+        Architecture Type Option option.";
+      leaf-list architecture-type {
+        type uint16;
+        description "Client architecture type.";
+      }
+    }
+  }
+
+  grouping nii-option-group {
+    description "OPTION_NII (62) Network Interface Identifier Option.";
+    reference "RFC 5970: DHCPv6 Options for Network Boot";
+    container nii-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_NII (62) Network Interface Identifier Option
+        option.";
+      leaf interface-type {
+        type uint8;
+        description "Network interface type.";
+      }
+      leaf major-version {
+        type uint8;
+        description "Major version.";
+      }
+      leaf minor-version {
+        type uint8;
+        description "Minor version.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 5970 options.";
+    uses bootfile-url-option-group;
+    uses bootfile-param-option-group;
+    uses client-arch-type-option-group;
+    uses nii-option-group;
+  }
+
+}

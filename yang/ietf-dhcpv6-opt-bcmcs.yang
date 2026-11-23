@@ -1,0 +1,79 @@
+module ietf-dhcpv6-opt-bcmcs {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-bcmcs";
+  prefix bcmcs;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 4280: Dynamic
+      Host Configuration Protocol (DHCPv6) Options for Broadcast and
+      Multicast Control Servers.";
+  reference "RFC 4280: Dynamic Host Configuration Protocol (DHCPv6)
+    Options for Broadcast and Multicast Control Servers";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 4280: Dynamic Host Configuration Protocol (DHCPv6)
+      Options for Broadcast and Multicast Control Servers";
+  }
+
+  grouping bcmcs-server-domain-name-list-option-group {
+    description "OPTION_BCMCS_SERVER_D (33) Broadcast and Multicast
+      Control Servers Domain-Name List.";
+    reference "RFC 4280: Dynamic Host Configuration Protocol (DHCPv6)
+      Options for Broadcast and Multicast Control Servers";
+    container bcmcs-server-domain-name-list-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_BCMCS_SERVER_D (33) Broadcast and Multicast
+        Control Servers Domain-Name List option.";
+      leaf-list bcmcs-server-domain-name {
+        type inet:domain-name;
+        description "BCMCS server domain name.";
+      }
+    }
+  }
+
+  grouping bcmcs-server-address-list-option-group {
+    description "OPTION_BCMCS_SERVER_A (34) Broadcast and Multicast
+      Control Servers IPv6 Address List.";
+    reference "RFC 4280: Dynamic Host Configuration Protocol (DHCPv6)
+      Options for Broadcast and Multicast Control Servers";
+    container bcmcs-server-address-list-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_BCMCS_SERVER_A (34) Broadcast and Multicast
+        Control Servers IPv6 Address List option.";
+      leaf-list bcmcs-server-address {
+        type inet:ipv6-address;
+        description "BCMCS server IPv6 address.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 4280 options.";
+    uses bcmcs-server-domain-name-list-option-group;
+    uses bcmcs-server-address-list-option-group;
+  }
+
+}

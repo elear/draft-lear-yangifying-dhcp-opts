@@ -1,0 +1,9 @@
+module: ietf-dhcpv6-opt-active-leasequery
+  augment /dhc6-clnt:dhcpv6-client/dhc6-clnt:client-if/
+         dhc6-clnt:client-configured-options:
+    +--rw lq-base-time-option!
+       +--rw base-time? uint64
+    +--rw lq-start-time-option!
+       +--rw start-time? uint64
+    +--rw lq-end-time-option!
+       +--rw end-time? uint64

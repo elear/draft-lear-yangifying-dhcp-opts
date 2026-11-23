@@ -1,0 +1,58 @@
+module ietf-dhcpv6-opt-sip-ua {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-sip-ua";
+  prefix sip-ua;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 6011: Option for
+      SIP User Agent Configuration.";
+  reference "RFC 6011: Option for SIP User Agent Configuration";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 6011: Option for SIP User Agent Configuration";
+  }
+
+  grouping sip-ua-cs-list-option-group {
+    description "OPTION_SIP_UA_CS_LIST (58) SIP User Agent
+      Configuration Service List Option.";
+    reference "RFC 6011: Option for SIP User Agent Configuration";
+    container sip-ua-cs-list-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_SIP_UA_CS_LIST (58) SIP User Agent
+        Configuration Service List Option option.";
+      leaf-list service-uri {
+        type inet:uri;
+        description "SIP configuration service URI.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 6011 options.";
+    uses sip-ua-cs-list-option-group;
+  }
+
+}

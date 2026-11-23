@@ -1,0 +1,5 @@
+module: ietf-dhcpv6-opt-sntp
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw sntp-servers-option!
+       +--rw sntp-server* inet:ipv6-address

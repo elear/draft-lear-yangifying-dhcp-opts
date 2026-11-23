@@ -1,0 +1,59 @@
+module ietf-dhcpv6-opt-slap-quad {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-slap-quad";
+  prefix slap-qua;
+
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 8948: DHCPv6
+      Options for the IEEE 802.1Q Shortest Path Bridging (SPB) Link
+      Attribute Protocol (SLAP).";
+  reference "RFC 8948: DHCPv6 Options for the IEEE 802.1Q Shortest
+    Path Bridging (SPB) Link Attribute Protocol (SLAP)";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 8948: DHCPv6 Options for the IEEE 802.1Q Shortest
+      Path Bridging (SPB) Link Attribute Protocol (SLAP)";
+  }
+
+  grouping slap-quad-option-group {
+    description "OPTION_SLAP_QUAD (140) SLAP Quad Option.";
+    reference "RFC 8948: DHCPv6 Options for the IEEE 802.1Q Shortest
+      Path Bridging (SPB) Link Attribute Protocol (SLAP)";
+    container slap-quad-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_SLAP_QUAD (140) SLAP Quad Option option.";
+      leaf slap-modifier {
+        type uint8;
+        description "SLAP modifier.";
+      }
+      leaf slap-quadrant {
+        type uint8;
+        description "SLAP quadrant.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 8948 options.";
+    uses slap-quad-option-group;
+  }
+
+}

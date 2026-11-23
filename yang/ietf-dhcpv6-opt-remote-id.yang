@@ -1,0 +1,55 @@
+module ietf-dhcpv6-opt-remote-id {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-remote-id";
+  prefix remote-i;
+
+  import ietf-dhcpv6-relay {
+    prefix dhc6-rly;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 4649: DHCPv6
+      Relay Agent Remote-ID Option.";
+  reference "RFC 4649: DHCPv6 Relay Agent Remote-ID Option";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 4649: DHCPv6 Relay Agent Remote-ID Option";
+  }
+
+  grouping remote-id-option-group {
+    description "OPTION_REMOTE_ID (37) Remote-ID Option.";
+    reference "RFC 4649: DHCPv6 Relay Agent Remote-ID Option";
+    container remote-id-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_REMOTE_ID (37) Remote-ID Option option.";
+      leaf enterprise-number {
+        type uint32;
+        description "Enterprise number.";
+      }
+      leaf remote-id {
+        type binary;
+        description "Remote identifier octets.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-rly:dhcpv6-relay/"
+      + "dhc6-rly:relay-if/"
+      + "dhc6-rly:relay-options" {
+    description "Add RFC 4649 options.";
+    uses remote-id-option-group;
+  }
+
+}

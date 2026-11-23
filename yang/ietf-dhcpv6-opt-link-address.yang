@@ -1,0 +1,59 @@
+module ietf-dhcpv6-opt-link-address {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-link-address";
+  prefix link-add;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-client {
+    prefix dhc6-clnt;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 6977: Reducing
+      Access Network Query and Response Time.";
+  reference "RFC 6977: Reducing Access Network Query and Response Time";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 6977: Reducing Access Network Query and Response
+      Time";
+  }
+
+  grouping link-address-option-group {
+    description "OPTION_LINK_ADDRESS (80) Link Address Option.";
+    reference "RFC 6977: Reducing Access Network Query and Response
+      Time";
+    container link-address-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_LINK_ADDRESS (80) Link Address Option
+        option.";
+      leaf link-address {
+        type inet:ipv6-address;
+        description "IPv6 link address.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-clnt:dhcpv6-client/"
+      + "dhc6-clnt:client-if/"
+      + "dhc6-clnt:client-configured-options" {
+    description "Add RFC 6977 options.";
+    uses link-address-option-group;
+  }
+
+}

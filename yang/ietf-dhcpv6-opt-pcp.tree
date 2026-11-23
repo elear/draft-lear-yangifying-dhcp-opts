@@ -1,0 +1,5 @@
+module: ietf-dhcpv6-opt-pcp
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw v6-pcp-server-option!
+       +--rw pcp-server-address* inet:ipv6-address

@@ -1,0 +1,161 @@
+module ietf-dhcpv6-opt-mip6 {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-mip6";
+  prefix mip6;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 6610: DHCPv6
+      Options for Home Information Discovery in Mobile IPv6.";
+  reference "RFC 6610: DHCPv6 Options for Home Information Discovery
+    in Mobile IPv6";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 6610: DHCPv6 Options for Home Information Discovery
+      in Mobile IPv6";
+  }
+
+  grouping mip6-hnidf-option-group {
+    description "OPTION_MIP6_HNIDF (49) Home Network Identifier FQDN
+      Option.";
+    reference "RFC 6610: DHCPv6 Options for Home Information Discovery
+      in Mobile IPv6";
+    container mip6-hnidf-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_MIP6_HNIDF (49) Home Network Identifier FQDN
+        Option option.";
+      leaf home-network-id {
+        type inet:domain-name;
+        description "Home network identifier.";
+      }
+    }
+  }
+
+  grouping mip6-vdinf-option-group {
+    description "OPTION_MIP6_VDINF (50) Vendor-specific Information
+      Option.";
+    reference "RFC 6610: DHCPv6 Options for Home Information Discovery
+      in Mobile IPv6";
+    container mip6-vdinf-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_MIP6_VDINF (50) Vendor-specific Information
+        Option option.";
+      leaf enterprise-number {
+        type uint32;
+        description "Enterprise number.";
+      }
+      leaf vendor-data {
+        type binary;
+        description "Vendor-specific data.";
+      }
+    }
+  }
+
+  grouping mip6-idinf-option-group {
+    description "OPTION_MIP6_IDINF (69) Mobile IPv6 Identifier Option.";
+    reference "RFC 6610: DHCPv6 Options for Home Information Discovery
+      in Mobile IPv6";
+    container mip6-idinf-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_MIP6_IDINF (69) Mobile IPv6 Identifier
+        Option option.";
+      leaf identifier {
+        type binary;
+        description "Mobile IPv6 identifier.";
+      }
+    }
+  }
+
+  grouping mip6-udinf-option-group {
+    description "OPTION_MIP6_UDINF (70) Mobile IPv6 User Data Option.";
+    reference "RFC 6610: DHCPv6 Options for Home Information Discovery
+      in Mobile IPv6";
+    container mip6-udinf-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_MIP6_UDINF (70) Mobile IPv6 User Data Option
+        option.";
+      leaf user-data {
+        type binary;
+        description "Mobile IPv6 user data.";
+      }
+    }
+  }
+
+  grouping mip6-hnp-option-group {
+    description "OPTION_MIP6_HNP (71) Home Network Prefix Option.";
+    reference "RFC 6610: DHCPv6 Options for Home Information Discovery
+      in Mobile IPv6";
+    container mip6-hnp-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_MIP6_HNP (71) Home Network Prefix Option
+        option.";
+      leaf-list home-network-prefix {
+        type inet:ipv6-prefix;
+        description "Home network prefix.";
+      }
+    }
+  }
+
+  grouping mip6-haa-option-group {
+    description "OPTION_MIP6_HAA (72) Home Agent Address Option.";
+    reference "RFC 6610: DHCPv6 Options for Home Information Discovery
+      in Mobile IPv6";
+    container mip6-haa-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_MIP6_HAA (72) Home Agent Address Option
+        option.";
+      leaf-list home-agent-address {
+        type inet:ipv6-address;
+        description "Home agent IPv6 address.";
+      }
+    }
+  }
+
+  grouping mip6-haf-option-group {
+    description "OPTION_MIP6_HAF (73) Home Agent FQDN Option.";
+    reference "RFC 6610: DHCPv6 Options for Home Information Discovery
+      in Mobile IPv6";
+    container mip6-haf-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_MIP6_HAF (73) Home Agent FQDN Option option.";
+      leaf-list home-agent-fqdn {
+        type inet:domain-name;
+        description "Home agent FQDN.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 6610 options.";
+    uses mip6-hnidf-option-group;
+    uses mip6-vdinf-option-group;
+    uses mip6-idinf-option-group;
+    uses mip6-udinf-option-group;
+    uses mip6-hnp-option-group;
+    uses mip6-haa-option-group;
+    uses mip6-haf-option-group;
+  }
+
+}

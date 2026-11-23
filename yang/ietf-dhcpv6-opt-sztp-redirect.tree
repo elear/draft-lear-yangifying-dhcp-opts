@@ -1,0 +1,6 @@
+module: ietf-dhcpv6-opt-sztp-redirect
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw v6-sztp-redirect-option!
+       +--rw redirect-uri* inet:uri
+       +--rw redirect-data* binary

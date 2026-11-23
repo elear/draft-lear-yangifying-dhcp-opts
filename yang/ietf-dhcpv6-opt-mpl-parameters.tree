@@ -1,0 +1,5 @@
+module: ietf-dhcpv6-opt-mpl-parameters
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw mpl-parameters-option!
+       +--rw mpl-parameter-data? binary

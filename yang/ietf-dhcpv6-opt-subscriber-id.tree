@@ -1,0 +1,5 @@
+module: ietf-dhcpv6-opt-subscriber-id
+  augment /dhc6-rly:dhcpv6-relay/dhc6-rly:relay-if/
+         dhc6-rly:relay-options:
+    +--rw subscriber-id-option!
+       +--rw subscriber-id? binary

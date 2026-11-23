@@ -1,0 +1,98 @@
+module ietf-dhcpv6-opt-homenet-naming {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-homenet-naming";
+  prefix homenet;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 9527: DHCPv6
+      Options for the Homenet Naming Authority.";
+  reference "RFC 9527: DHCPv6 Options for the Homenet Naming Authority";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 9527: DHCPv6 Options for the Homenet Naming
+      Authority";
+  }
+
+  grouping registered-domain-option-group {
+    description "OPTION_REGISTERED_DOMAIN (145) Registered Domain
+      Option.";
+    reference "RFC 9527: DHCPv6 Options for the Homenet Naming
+      Authority";
+    container registered-domain-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_REGISTERED_DOMAIN (145) Registered Domain
+        Option option.";
+      leaf domain-name {
+        type inet:domain-name;
+        description "Registered domain name.";
+      }
+      leaf transport-protocol {
+        type uint16;
+        description "Supported transport protocol flags.";
+      }
+    }
+  }
+
+  grouping forward-dist-manager-option-group {
+    description "OPTION_FORWARD_DIST_MANAGER (146) Forward
+      Distribution Manager Option.";
+    reference "RFC 9527: DHCPv6 Options for the Homenet Naming
+      Authority";
+    container forward-dist-manager-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_FORWARD_DIST_MANAGER (146) Forward
+        Distribution Manager Option option.";
+      leaf-list manager-domain-name {
+        type inet:domain-name;
+        description "Forward distribution manager domain name.";
+      }
+    }
+  }
+
+  grouping reverse-dist-manager-option-group {
+    description "OPTION_REVERSE_DIST_MANAGER (147) Reverse
+      Distribution Manager Option.";
+    reference "RFC 9527: DHCPv6 Options for the Homenet Naming
+      Authority";
+    container reverse-dist-manager-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_REVERSE_DIST_MANAGER (147) Reverse
+        Distribution Manager Option option.";
+      leaf-list manager-domain-name {
+        type inet:domain-name;
+        description "Reverse distribution manager domain name.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 9527 options.";
+    uses registered-domain-option-group;
+    uses forward-dist-manager-option-group;
+    uses reverse-dist-manager-option-group;
+  }
+
+}

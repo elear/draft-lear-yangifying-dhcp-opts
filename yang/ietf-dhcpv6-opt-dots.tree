@@ -1,0 +1,7 @@
+module: ietf-dhcpv6-opt-dots
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw v6-dots-ri-option!
+       +--rw redirected-identifier? binary
+    +--rw v6-dots-address-option!
+       +--rw dots-address* inet:ipv6-address

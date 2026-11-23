@@ -1,0 +1,8 @@
+module: ietf-dhcpv6-opt-dnr
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw v6-dnr-option!
+       +--rw priority* uint16
+       +--rw adn* inet:domain-name
+       +--rw ipv6-address* inet:ipv6-address
+       +--rw service-parameter* binary

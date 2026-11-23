@@ -1,0 +1,10 @@
+module: ietf-dhcpv6-opt-dhcpv4-over-dhcpv6
+  augment /dhc6-rly:dhcpv6-relay/dhc6-rly:relay-if/
+         dhc6-rly:relay-options:
+    +--rw dhcpv4-msg-option!
+       +--rw dhcpv4-message? binary
+
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw dhcp4-o-dhcp6-server-option!
+       +--rw server-address* inet:ipv6-address

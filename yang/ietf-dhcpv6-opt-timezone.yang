@@ -1,0 +1,69 @@
+module ietf-dhcpv6-opt-timezone {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-timezone";
+  prefix timezone;
+
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 4833: Timezone
+      Options for DHCP.";
+  reference "RFC 4833: Timezone Options for DHCP";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 4833: Timezone Options for DHCP";
+  }
+
+  grouping new-posix-timezone-option-group {
+    description "OPTION_NEW_POSIX_TIMEZONE (41) New POSIX Timezone
+      Option.";
+    reference "RFC 4833: Timezone Options for DHCP";
+    container new-posix-timezone-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_NEW_POSIX_TIMEZONE (41) New POSIX Timezone
+        Option option.";
+      leaf posix-timezone {
+        type string;
+        description "POSIX timezone string.";
+      }
+    }
+  }
+
+  grouping new-tzdb-timezone-option-group {
+    description "OPTION_NEW_TZDB_TIMEZONE (42) New TZDB Timezone
+      Option.";
+    reference "RFC 4833: Timezone Options for DHCP";
+    container new-tzdb-timezone-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_NEW_TZDB_TIMEZONE (42) New TZDB Timezone
+        Option option.";
+      leaf tzdb-timezone {
+        type string;
+        description "TZDB timezone name.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 4833 options.";
+    uses new-posix-timezone-option-group;
+    uses new-tzdb-timezone-option-group;
+  }
+
+}

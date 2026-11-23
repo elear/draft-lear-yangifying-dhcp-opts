@@ -1,0 +1,6 @@
+module: ietf-dhcpv6-opt-slap-quad
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw slap-quad-option!
+       +--rw slap-modifier? uint8
+       +--rw slap-quadrant? uint8

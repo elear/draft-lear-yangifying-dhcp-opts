@@ -1,0 +1,7 @@
+module: ietf-dhcpv6-opt-sip
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw sip-server-domain-name-list-option!
+       +--rw sip-server-domain-name* inet:domain-name
+    +--rw sip-server-address-list-option!
+       +--rw sip-server-address* inet:ipv6-address

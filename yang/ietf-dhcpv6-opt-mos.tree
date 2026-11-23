@@ -1,0 +1,9 @@
+module: ietf-dhcpv6-opt-mos
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw ipv6-address-mos-option!
+       +--rw service-type? uint16
+       +--rw server-address* inet:ipv6-address
+    +--rw ipv6-fqdn-mos-option!
+       +--rw service-type? uint16
+       +--rw server-fqdn* inet:domain-name

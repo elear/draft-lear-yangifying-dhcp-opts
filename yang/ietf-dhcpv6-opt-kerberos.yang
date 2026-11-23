@@ -1,0 +1,104 @@
+module ietf-dhcpv6-opt-kerberos {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-kerberos";
+  prefix kerberos;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 6784: Kerberos
+      Options for DHCPv6.";
+  reference "RFC 6784: Kerberos Options for DHCPv6";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 6784: Kerberos Options for DHCPv6";
+  }
+
+  grouping krb-principal-name-option-group {
+    description "OPTION_KRB_PRINCIPAL_NAME (75) Kerberos Principal
+      Name Option.";
+    reference "RFC 6784: Kerberos Options for DHCPv6";
+    container krb-principal-name-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_KRB_PRINCIPAL_NAME (75) Kerberos Principal
+        Name Option option.";
+      leaf principal-name {
+        type string;
+        description "Kerberos principal name.";
+      }
+    }
+  }
+
+  grouping krb-realm-name-option-group {
+    description "OPTION_KRB_REALM_NAME (76) Kerberos Realm Name
+      Option.";
+    reference "RFC 6784: Kerberos Options for DHCPv6";
+    container krb-realm-name-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_KRB_REALM_NAME (76) Kerberos Realm Name
+        Option option.";
+      leaf realm-name {
+        type string;
+        description "Kerberos realm name.";
+      }
+    }
+  }
+
+  grouping krb-default-realm-name-option-group {
+    description "OPTION_KRB_DEFAULT_REALM_NAME (77) Kerberos Default
+      Realm Name Option.";
+    reference "RFC 6784: Kerberos Options for DHCPv6";
+    container krb-default-realm-name-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_KRB_DEFAULT_REALM_NAME (77) Kerberos Default
+        Realm Name Option option.";
+      leaf default-realm-name {
+        type string;
+        description "Kerberos default realm name.";
+      }
+    }
+  }
+
+  grouping krb-kdc-option-group {
+    description "OPTION_KRB_KDC (78) Kerberos KDC Option.";
+    reference "RFC 6784: Kerberos Options for DHCPv6";
+    container krb-kdc-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_KRB_KDC (78) Kerberos KDC Option option.";
+      leaf-list kdc-address {
+        type inet:ipv6-address;
+        description "KDC IPv6 address.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 6784 options.";
+    uses krb-principal-name-option-group;
+    uses krb-realm-name-option-group;
+    uses krb-default-realm-name-option-group;
+    uses krb-kdc-option-group;
+  }
+
+}

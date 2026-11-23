@@ -1,0 +1,5 @@
+module: ietf-dhcpv6-opt-radius
+  augment /dhc6-rly:dhcpv6-relay/dhc6-rly:relay-if/
+         dhc6-rly:relay-options:
+    +--rw radius-option!
+       +--rw radius-attributes? binary

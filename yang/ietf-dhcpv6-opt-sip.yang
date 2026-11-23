@@ -1,0 +1,79 @@
+module ietf-dhcpv6-opt-sip {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-sip";
+  prefix sip;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 3319: Dynamic
+      Host Configuration Protocol (DHCPv6) Options for Session
+      Initiation Protocol (SIP) Servers.";
+  reference "RFC 3319: Dynamic Host Configuration Protocol (DHCPv6)
+    Options for Session Initiation Protocol (SIP) Servers";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 3319: Dynamic Host Configuration Protocol (DHCPv6)
+      Options for Session Initiation Protocol (SIP) Servers";
+  }
+
+  grouping sip-server-domain-name-list-option-group {
+    description "OPTION_SIP_SERVER_D (21) SIP Servers Domain-Name
+      List.";
+    reference "RFC 3319: Dynamic Host Configuration Protocol (DHCPv6)
+      Options for Session Initiation Protocol (SIP) Servers";
+    container sip-server-domain-name-list-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_SIP_SERVER_D (21) SIP Servers Domain-Name
+        List option.";
+      leaf-list sip-server-domain-name {
+        type inet:domain-name;
+        description "SIP server domain name.";
+      }
+    }
+  }
+
+  grouping sip-server-address-list-option-group {
+    description "OPTION_SIP_SERVER_A (22) SIP Servers IPv6 Address
+      List.";
+    reference "RFC 3319: Dynamic Host Configuration Protocol (DHCPv6)
+      Options for Session Initiation Protocol (SIP) Servers";
+    container sip-server-address-list-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_SIP_SERVER_A (22) SIP Servers IPv6 Address
+        List option.";
+      leaf-list sip-server-address {
+        type inet:ipv6-address;
+        description "SIP server IPv6 address.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 3319 options.";
+    uses sip-server-domain-name-list-option-group;
+    uses sip-server-address-list-option-group;
+  }
+
+}

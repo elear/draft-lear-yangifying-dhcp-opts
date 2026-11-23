@@ -1,0 +1,5 @@
+module: ietf-dhcpv6-opt-prefix64
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw v6-prefix64-option!
+       +--rw prefix64* inet:ipv6-prefix

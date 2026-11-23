@@ -1,0 +1,5 @@
+module: ietf-dhcpv6-opt-andsf
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw ipv6-address-andsf-option!
+       +--rw andsf-server-address* inet:ipv6-address

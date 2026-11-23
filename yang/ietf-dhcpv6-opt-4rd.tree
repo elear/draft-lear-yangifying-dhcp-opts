@@ -1,0 +1,9 @@
+module: ietf-dhcpv6-opt-4rd
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw option-4rd-option!
+       +--rw four-rd-data? binary
+    +--rw option-4rd-map-rule-option!
+       +--rw map-rule* binary
+    +--rw option-4rd-non-map-rule-option!
+       +--rw non-map-rule* binary

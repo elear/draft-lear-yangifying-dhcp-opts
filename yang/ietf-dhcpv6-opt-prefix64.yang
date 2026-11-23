@@ -1,0 +1,60 @@
+module ietf-dhcpv6-opt-prefix64 {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-prefix64";
+  prefix prefix64;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 8115: DHCPv6
+      Option for IPv4-Embedded Multicast and Unicast IPv6 Prefixes.";
+  reference "RFC 8115: DHCPv6 Option for IPv4-Embedded Multicast and
+    Unicast IPv6 Prefixes";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 8115: DHCPv6 Option for IPv4-Embedded Multicast and
+      Unicast IPv6 Prefixes";
+  }
+
+  grouping v6-prefix64-option-group {
+    description "OPTION_V6_PREFIX64 (113) IPv6 Prefix64 Option.";
+    reference "RFC 8115: DHCPv6 Option for IPv4-Embedded Multicast and
+      Unicast IPv6 Prefixes";
+    container v6-prefix64-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_V6_PREFIX64 (113) IPv6 Prefix64 Option
+        option.";
+      leaf-list prefix64 {
+        type inet:ipv6-prefix;
+        description "IPv4-embedded IPv6 prefix.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 8115 options.";
+    uses v6-prefix64-option-group;
+  }
+
+}

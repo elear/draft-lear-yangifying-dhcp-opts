@@ -1,0 +1,5 @@
+module: ietf-dhcpv6-opt-relay-port
+  augment /dhc6-rly:dhcpv6-relay/dhc6-rly:relay-if/
+         dhc6-rly:relay-options:
+    +--rw relay-port-option!
+       +--rw relay-port? uint16

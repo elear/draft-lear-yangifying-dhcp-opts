@@ -1,0 +1,5 @@
+module: ietf-dhcpv6-opt-pana-agent
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw pana-agent-option!
+       +--rw pana-agent-address* inet:ipv6-address

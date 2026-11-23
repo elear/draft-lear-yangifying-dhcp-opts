@@ -1,0 +1,11 @@
+module: ietf-dhcpv6-opt-kerberos
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw krb-principal-name-option!
+       +--rw principal-name? string
+    +--rw krb-realm-name-option!
+       +--rw realm-name? string
+    +--rw krb-default-realm-name-option!
+       +--rw default-realm-name? string
+    +--rw krb-kdc-option!
+       +--rw kdc-address* inet:ipv6-address

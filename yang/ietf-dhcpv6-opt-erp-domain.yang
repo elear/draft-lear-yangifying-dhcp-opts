@@ -1,0 +1,62 @@
+module ietf-dhcpv6-opt-erp-domain {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:"
+    + "ietf-dhcpv6-opt-erp-domain";
+  prefix erp-doma;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-dhcpv6-server {
+    prefix dhc6-srv;
+    reference
+      "RFC 9243: A YANG Data Model for DHCPv6
+       Configuration";
+  }
+
+  organization
+    "IETF Dynamic Host Configuration (DHC) Working Group";
+  contact
+    "DHC Working Group
+     WG Web: <https://datatracker.ietf.org/wg/dhc/>
+     WG List: <mailto:dhcwg@ietf.org>";
+  description
+     "This module defines the DHCPv6 options from RFC 6440: EAP
+      Re-authentication Protocol (ERP) Local Domain Name DHCPv6
+      Option.";
+  reference "RFC 6440: EAP Re-authentication Protocol (ERP) Local
+    Domain Name DHCPv6 Option";
+
+  revision 2026-11-19 {
+    description "Initial revision.";
+    reference "RFC 6440: EAP Re-authentication Protocol (ERP) Local
+      Domain Name DHCPv6 Option";
+  }
+
+  grouping erp-local-domain-name-option-group {
+    description "OPTION_ERP_LOCAL_DOMAIN_NAME (65) ERP Local Domain
+      Name Option.";
+    reference "RFC 6440: EAP Re-authentication Protocol (ERP) Local
+      Domain Name DHCPv6 Option";
+    container erp-local-domain-name-option {
+      presence "Configures this DHCPv6 option.";
+      description "OPTION_ERP_LOCAL_DOMAIN_NAME (65) ERP Local Domain
+        Name Option option.";
+      leaf erp-domain-name {
+        type inet:domain-name;
+        description "ERP local domain name.";
+      }
+    }
+  }
+
+  augment
+    "/dhc6-srv:dhcpv6-server/"
+      + "dhc6-srv:option-sets/"
+      + "dhc6-srv:option-set" {
+    description "Add RFC 6440 options.";
+    uses erp-local-domain-name-option-group;
+  }
+
+}

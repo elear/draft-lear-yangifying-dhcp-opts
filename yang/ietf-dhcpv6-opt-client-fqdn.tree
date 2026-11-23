@@ -1,0 +1,6 @@
+module: ietf-dhcpv6-opt-client-fqdn
+  augment /dhc6-srv:dhcpv6-server/dhc6-srv:option-sets/
+         dhc6-srv:option-set:
+    +--rw client-fqdn-option!
+       +--rw flags? uint8
+       +--rw domain-name? inet:domain-name
