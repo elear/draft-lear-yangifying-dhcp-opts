@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-22T05:36:43.394803+00:00",
+  "timestamp": "2026-11-24T08:52:55.427309+00:00",
   "repo": "elear/draft-lear-yangifying-dhcp-opts",
   "labels": [
     {
@@ -55,5 +55,32 @@
     }
   ],
   "issues": [],
-  "pulls": []
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOUe0RZ88AAAABRPDRLw",
+      "title": "Added general definition structure, option models, trees diagrams etc\u2026",
+      "url": "https://github.com/elear/draft-lear-yangifying-dhcp-opts/pull/1",
+      "state": "CLOSED",
+      "author": "iffy50",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\u2026. for general structural discussion. Options models have not had detailed review against source specs yet",
+      "createdAt": "2026-11-23T10:47:07Z",
+      "updatedAt": "2026-11-23T12:15:56Z",
+      "baseRepository": "elear/draft-lear-yangifying-dhcp-opts",
+      "baseRefName": "main",
+      "baseRefOid": "ac657f366b18291efdee08a8a9f540f07a23ce31",
+      "headRepository": "elear/draft-lear-yangifying-dhcp-opts",
+      "headRefName": "add-options",
+      "headRefOid": "cd312fe5cc01d4d1e0d8d0a545da751af145ebc9",
+      "closedAt": "2026-11-23T12:15:56Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    }
+  ]
 }
